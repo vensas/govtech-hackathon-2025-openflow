@@ -34,7 +34,7 @@ module.exports = defineConfig({
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        type: 'css',
       },
     ],
   },

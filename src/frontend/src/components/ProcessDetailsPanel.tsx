@@ -1,28 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  Grid,
-  Chip,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  Alert,
-  Paper,
-  IconButton,
-} from '@mui/material';
-import {
-  Email as EmailIcon,
-  Phone as PhoneIcon,
-  Business as BusinessIcon,
-  Schedule as ScheduleIcon,
-  Description as DescriptionIcon,
-  Gavel as GavelIcon,
-} from '@mui/icons-material';
+import { Card } from 'primereact/card';
+import { Chip } from 'primereact/chip';
+import { Divider } from 'primereact/divider';
+import { Message } from 'primereact/message';
 import { BusinessProcess } from '../types';
+import { colors } from '../theme';
 
 interface ProcessDetailsPanelProps {
   process: BusinessProcess | null;
@@ -59,223 +41,211 @@ export const ProcessDetailsPanel: React.FC<ProcessDetailsPanelProps> = ({ proces
 
   if (!process) {
     return (
-      <Box p={3} height="100%" display="flex" alignItems="center" justifyContent="center">
-        <Alert severity="info" sx={{ maxWidth: 400 }}>
-          <Typography variant="h6" gutterBottom>
-            Select a Process
-          </Typography>
-          <Typography variant="body2">
-            Choose a business process from the search results to view its details, 
-            BPMN workflow diagram, and contact information.
-          </Typography>
-        </Alert>
-      </Box>
+      <div style={{ padding: '1.5rem', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Message 
+          severity="info" 
+          style={{ maxWidth: '400px' }}
+          text={
+            <div>
+              <h3>Select a Process</h3>
+              <p>
+                Choose a business process from the search results to view its details, 
+                BPMN workflow diagram, and contact information.
+              </p>
+            </div>
+          }
+        />
+      </div>
     );
   }
 
   return (
-    <Box p={3} sx={{ height: '100%', overflow: 'auto' }}>
+    <div style={{ padding: '1.5rem', height: '100%', overflow: 'auto' }}>
       {/* Process Header */}
-      <Box mb={3}>
-        <Typography variant="h4" color="primary" gutterBottom fontWeight={600}>
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h2 style={{ color: colors.primary.main, marginBottom: '0.5rem', fontWeight: 600 }}>
           {process.name}
-        </Typography>
-        <Typography variant="body1" color="text.secondary" paragraph>
+        </h2>
+        <p style={{ color: colors.text.secondary, marginBottom: '1rem' }}>
           {process.description}
-        </Typography>
-        <Box display="flex" gap={1} flexWrap="wrap">
-          <Chip label={process.category} color="primary" />
+        </p>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <Chip label={process.category} style={{ backgroundColor: colors.primary.main, color: 'white' }} />
           <Chip 
             label={`${Math.round(process.score * 100)}% Match`} 
-            color="success" 
-            variant="outlined" 
+            style={{ backgroundColor: colors.success, color: 'white' }}
           />
           {process.sla && (
             <Chip 
-              icon={<ScheduleIcon />} 
+              icon="pi pi-clock" 
               label={`SLA: ${process.sla}`} 
-              variant="outlined" 
             />
           )}
-        </Box>
-      </Box>
+        </div>
+      </div>
 
       {/* BPMN Diagram */}
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom display="flex" alignItems="center" gap={1}>
-            <DescriptionIcon color="primary" />
+      <Card style={{ marginBottom: '1.5rem' }}>
+        <div style={{ padding: '1rem' }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+            <i className="pi pi-file" style={{ color: colors.primary.main }} />
             Process Flow Diagram
-          </Typography>
-          <Box ref={bpmnContainerRef} />
-        </CardContent>
+          </h3>
+          <div ref={bpmnContainerRef} />
+        </div>
       </Card>
 
       {/* Contact Information */}
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom display="flex" alignItems="center" gap={1}>
-            <BusinessIcon color="primary" />
+      <Card style={{ marginBottom: '1.5rem' }}>
+        <div style={{ padding: '1rem' }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+            <i className="pi pi-building" style={{ color: colors.primary.main }} />
             Contact Information
-          </Typography>
-          <Box mt={2}>
-            <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+          </h3>
+          <div style={{ marginTop: '1rem' }}>
+            <h4 style={{ fontWeight: 600, marginBottom: '0.5rem' }}>
               {process.owner.department}
-            </Typography>
-            <Typography variant="body2" gutterBottom>
+            </h4>
+            <p style={{ fontSize: '0.875rem', marginBottom: '1rem' }}>
               {process.owner.contactPerson}
-            </Typography>
-            <Box display="flex" flexDirection="column" gap={1} mt={2}>
-              <Box display="flex" alignItems="center" gap={1}>
-                <EmailIcon fontSize="small" color="primary" />
-                <Typography variant="body2" component="a" href={`mailto:${process.owner.email}`}>
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <i className="pi pi-envelope" style={{ fontSize: '0.875rem', color: colors.primary.main }} />
+                <a href={`mailto:${process.owner.email}`} style={{ fontSize: '0.875rem', color: colors.primary.main, textDecoration: 'none' }}>
                   {process.owner.email}
-                </Typography>
-              </Box>
+                </a>
+              </div>
               {process.owner.phone && (
-                <Box display="flex" alignItems="center" gap={1}>
-                  <PhoneIcon fontSize="small" color="primary" />
-                  <Typography variant="body2" component="a" href={`tel:${process.owner.phone}`}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <i className="pi pi-phone" style={{ fontSize: '0.875rem', color: colors.primary.main }} />
+                  <a href={`tel:${process.owner.phone}`} style={{ fontSize: '0.875rem', color: colors.primary.main, textDecoration: 'none' }}>
                     {process.owner.phone}
-                  </Typography>
-                </Box>
+                  </a>
+                </div>
               )}
-            </Box>
-          </Box>
-        </CardContent>
+            </div>
+          </div>
+        </div>
       </Card>
 
       {/* Legal Bases */}
       {process.legalBases && process.legalBases.length > 0 && (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom display="flex" alignItems="center" gap={1}>
-              <GavelIcon color="primary" />
+        <Card style={{ marginBottom: '1.5rem' }}>
+          <div style={{ padding: '1rem' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+              <i className="pi pi-book" style={{ color: colors.primary.main }} />
               Legal Basis
-            </Typography>
-            <List dense>
+            </h3>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
               {process.legalBases.map((legal, index) => (
-                <ListItem key={index} sx={{ pl: 0 }}>
-                  <ListItemText
-                    primary={
-                      legal.url ? (
-                        <Typography 
-                          component="a" 
-                          href={legal.url} 
-                          target="_blank" 
-                          rel="noopener"
-                          color="primary"
-                          sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
-                        >
-                          {legal.title}
-                        </Typography>
-                      ) : (
-                        <Typography>{legal.title}</Typography>
-                      )
-                    }
-                    secondary={legal.reference}
-                  />
-                </ListItem>
+                <li key={index} style={{ marginBottom: '0.75rem' }}>
+                  {legal.url ? (
+                    <a 
+                      href={legal.url} 
+                      target="_blank" 
+                      rel="noopener"
+                      style={{ color: colors.primary.main, textDecoration: 'none', fontWeight: 500 }}
+                    >
+                      {legal.title}
+                    </a>
+                  ) : (
+                    <span style={{ fontWeight: 500 }}>{legal.title}</span>
+                  )}
+                  <div style={{ fontSize: '0.875rem', color: colors.text.secondary }}>{legal.reference}</div>
+                </li>
               ))}
-            </List>
-          </CardContent>
+            </ul>
+          </div>
         </Card>
       )}
 
       {/* Forms */}
       {process.forms && process.forms.length > 0 && (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
+        <Card style={{ marginBottom: '1.5rem' }}>
+          <div style={{ padding: '1rem' }}>
+            <h3 style={{ marginBottom: '1rem' }}>
               Required Forms
-            </Typography>
-            <List dense>
+            </h3>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
               {process.forms.map((form, index) => (
-                <ListItem key={index} sx={{ pl: 0 }}>
-                  <ListItemText
-                    primary={
-                      form.url ? (
-                        <Typography 
-                          component="a" 
-                          href={form.url} 
-                          target="_blank" 
-                          rel="noopener"
-                          color="primary"
-                          sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
-                        >
-                          {form.name}
-                        </Typography>
-                      ) : (
-                        <Typography>{form.name}</Typography>
-                      )
-                    }
-                    secondary={form.required ? 'Required' : 'Optional'}
-                  />
-                </ListItem>
+                <li key={index} style={{ marginBottom: '0.75rem' }}>
+                  {form.url ? (
+                    <a 
+                      href={form.url} 
+                      target="_blank" 
+                      rel="noopener"
+                      style={{ color: colors.primary.main, textDecoration: 'none', fontWeight: 500 }}
+                    >
+                      {form.name}
+                    </a>
+                  ) : (
+                    <span style={{ fontWeight: 500 }}>{form.name}</span>
+                  )}
+                  <div style={{ fontSize: '0.875rem', color: colors.text.secondary }}>
+                    {form.required ? 'Required' : 'Optional'}
+                  </div>
+                </li>
               ))}
-            </List>
-          </CardContent>
+            </ul>
+          </div>
         </Card>
       )}
 
       {/* KPIs */}
       {process.kpis && process.kpis.length > 0 && (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
+        <Card style={{ marginBottom: '1.5rem' }}>
+          <div style={{ padding: '1rem' }}>
+            <h3 style={{ marginBottom: '1rem' }}>
               Key Performance Indicators
-            </Typography>
-            <Grid container spacing={2}>
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
               {process.kpis.map((kpi, index) => (
-                <Grid item xs={12} sm={6} key={index}>
-                  <Paper sx={{ p: 2, backgroundColor: 'grey.50' }}>
-                    <Typography variant="subtitle2" color="primary" gutterBottom>
-                      {kpi.name}
-                    </Typography>
-                    <Typography variant="h6">
-                      {kpi.value} {kpi.unit && <span style={{ fontSize: '0.8em' }}>{kpi.unit}</span>}
-                    </Typography>
-                    {kpi.target && (
-                      <Typography variant="caption" color="text.secondary">
-                        Target: {kpi.target}
-                      </Typography>
-                    )}
-                  </Paper>
-                </Grid>
+                <div key={index} style={{ padding: '1rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '0.875rem', color: colors.primary.main, marginBottom: '0.5rem', fontWeight: 500 }}>
+                    {kpi.name}
+                  </div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 600 }}>
+                    {kpi.value} {kpi.unit && <span style={{ fontSize: '0.8em' }}>{kpi.unit}</span>}
+                  </div>
+                  {kpi.target && (
+                    <div style={{ fontSize: '0.75rem', color: colors.text.secondary }}>
+                      Target: {kpi.target}
+                    </div>
+                  )}
+                </div>
               ))}
-            </Grid>
-          </CardContent>
+            </div>
+          </div>
         </Card>
       )}
 
       {/* Evidence Snippets */}
       <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
+        <div style={{ padding: '1rem' }}>
+          <h3 style={{ marginBottom: '1rem' }}>
             Matching Evidence
-          </Typography>
+          </h3>
           {process.snippets.map((snippet, index) => (
-            <Box key={index} mb={2}>
-              <Paper sx={{ p: 2, backgroundColor: 'primary.50' }}>
-                <Typography variant="body2" paragraph sx={{ fontStyle: 'italic' }}>
+            <div key={index} style={{ marginBottom: '1rem' }}>
+              <div style={{ padding: '1rem', backgroundColor: colors.primary[50], borderRadius: '8px' }}>
+                <p style={{ fontSize: '0.875rem', fontStyle: 'italic', marginBottom: '1rem' }}>
                   "{snippet.text}"
-                </Typography>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                  <Typography variant="caption" color="text.secondary">
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.75rem', color: colors.text.secondary }}>
                     Source: {snippet.source}
-                  </Typography>
+                  </span>
                   <Chip 
                     label={`${Math.round(snippet.similarity * 100)}% match`}
-                    size="small"
-                    color="primary"
-                    variant="outlined"
+                    style={{ fontSize: '0.75rem' }}
                   />
-                </Box>
-              </Paper>
-            </Box>
+                </div>
+              </div>
+            </div>
           ))}
-        </CardContent>
+        </div>
       </Card>
-    </Box>
+    </div>
   );
 };

@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Chip,
-  LinearProgress,
-  Divider,
-} from '@mui/material';
+import { Card } from 'primereact/card';
+import { Chip } from 'primereact/chip';
+import { ProgressBar } from 'primereact/progressbar';
+import { Divider } from 'primereact/divider';
 import { BusinessProcess } from '../types';
+import { colors } from '../theme';
 
 interface ProcessCardProps {
   process: BusinessProcess;
@@ -21,104 +17,78 @@ export const ProcessCard: React.FC<ProcessCardProps> = ({
   selected = false, 
   onClick 
 }) => {
-  const getScoreColor = (score: number) => {
-    if (score >= 0.8) return 'success';
-    if (score >= 0.6) return 'warning';
-    return 'error';
-  };
-
   const getScorePercentage = (score: number) => Math.round(score * 100);
 
   return (
     <Card
       onClick={onClick}
-      sx={{
+      style={{
         cursor: onClick ? 'pointer' : 'default',
-        border: selected ? '2px solid' : '1px solid',
-        borderColor: selected ? 'primary.main' : 'grey.300',
-        mb: 2,
-        transition: 'all 0.2s ease-in-out',
-        '&:hover': onClick ? {
-          transform: 'translateY(-1px)',
-          boxShadow: 3,
-        } : {},
+        border: selected ? `2px solid ${colors.primary.main}` : '1px solid #e0e0e0',
+        marginBottom: '1rem',
       }}
     >
-      <CardContent>
-        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-          <Typography variant="h6" component="h3" sx={{ fontWeight: 600, flex: 1 }}>
+      <div style={{ padding: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+          <h3 style={{ fontWeight: 600, flex: 1, margin: 0 }}>
             {process.name}
-          </Typography>
-          <Box textAlign="right" ml={2}>
-            <Typography variant="caption" color="text.secondary">
+          </h3>
+          <div style={{ textAlign: 'right', marginLeft: '1rem' }}>
+            <div style={{ fontSize: '0.75rem', color: colors.text.secondary }}>
               Relevance
-            </Typography>
-            <Box display="flex" alignItems="center" gap={1}>
-              <LinearProgress
-                variant="determinate"
-                value={getScorePercentage(process.score)}
-                color={getScoreColor(process.score)}
-                sx={{ width: 60, height: 6, borderRadius: 3 }}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <ProgressBar 
+                value={getScorePercentage(process.score)} 
+                style={{ width: '60px', height: '6px' }}
+                showValue={false}
               />
-              <Typography variant="body2" fontWeight={500}>
+              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
                 {getScorePercentage(process.score)}%
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+              </span>
+            </div>
+          </div>
+        </div>
 
-        <Typography variant="body2" color="text.secondary" mb={2} sx={{ lineHeight: 1.5 }}>
+        <p style={{ fontSize: '0.875rem', color: colors.text.secondary, marginBottom: '1rem', lineHeight: 1.5 }}>
           {process.description}
-        </Typography>
+        </p>
 
-        <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
-          <Chip
-            label={process.category}
-            size="small"
-            color="primary"
-            variant="outlined"
-          />
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+          <Chip label={process.category} style={{ backgroundColor: colors.primary.light, color: 'white' }} />
           {process.owner && (
-            <Chip
-              label={process.owner.department}
-              size="small"
-              variant="outlined"
-            />
+            <Chip label={process.owner.department} />
           )}
           {process.sla && (
-            <Chip
-              label={`SLA: ${process.sla}`}
-              size="small"
-              color="secondary"
-              variant="outlined"
-            />
+            <Chip label={`SLA: ${process.sla}`} style={{ backgroundColor: colors.secondary.light, color: 'white' }} />
           )}
-        </Box>
+        </div>
 
         {process.snippets.length > 0 && (
           <>
-            <Divider sx={{ my: 1 }} />
-            <Typography variant="caption" color="text.secondary" gutterBottom>
+            <Divider />
+            <div style={{ fontSize: '0.75rem', color: colors.text.secondary, marginTop: '0.5rem', marginBottom: '0.5rem' }}>
               Matching Evidence:
-            </Typography>
+            </div>
             {process.snippets.slice(0, 2).map((snippet, index) => (
-              <Box key={index} mt={1}>
-                <Typography variant="body2" sx={{ 
+              <div key={index} style={{ marginTop: '0.5rem' }}>
+                <p style={{ 
                   fontSize: '0.875rem',
                   fontStyle: 'italic',
-                  color: 'text.secondary',
+                  color: colors.text.secondary,
                   lineHeight: 1.4,
+                  margin: '0.25rem 0',
                 }}>
                   "{snippet.text.substring(0, 150)}..."
-                </Typography>
-                <Typography variant="caption" color="primary.main">
+                </p>
+                <div style={{ fontSize: '0.75rem', color: colors.primary.main }}>
                   {snippet.source} ({Math.round(snippet.similarity * 100)}% match)
-                </Typography>
-              </Box>
+                </div>
+              </div>
             ))}
           </>
         )}
-      </CardContent>
+      </div>
     </Card>
   );
 };

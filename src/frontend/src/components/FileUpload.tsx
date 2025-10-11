@@ -1,18 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Box,
-  Button,
-  Typography,
-  Paper,
-  IconButton,
-  Chip,
-  CircularProgress,
-} from '@mui/material';
-import {
-  CloudUpload as UploadIcon,
-  Close as CloseIcon,
-  Description as FileIcon,
-} from '@mui/icons-material';
+import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { colors } from '../theme';
 
 interface FileUploadProps {
   onFileUpload: (file: File) => void;
@@ -83,7 +72,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   }, []);
 
   return (
-    <Box>
+    <div>
       <input
         type="file"
         id="pdf-file-upload"
@@ -94,80 +83,77 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       />
 
       {selectedFile ? (
-        <Paper
-          sx={{
-            p: 2,
+        <div
+          style={{
+            padding: '1rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: 'primary.50',
+            backgroundColor: colors.primary[50],
             border: '1px solid',
-            borderColor: 'primary.main',
+            borderColor: colors.primary.main,
+            borderRadius: '8px',
           }}
         >
-          <Box display="flex" alignItems="center" gap={1.5}>
-            <FileIcon color="primary" />
-            <Box>
-              <Typography variant="body2" fontWeight={600}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <i className="pi pi-file" style={{ color: colors.primary.main, fontSize: '1.5rem' }} />
+            <div>
+              <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>
                 {selectedFile.name}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
+              </div>
+              <div style={{ fontSize: '0.75rem', color: colors.text.secondary }}>
                 {(selectedFile.size / 1024).toFixed(1)} KB
-              </Typography>
-            </Box>
+              </div>
+            </div>
             {loading && (
-              <CircularProgress size={20} sx={{ ml: 1 }} />
+              <ProgressSpinner style={{ width: '20px', height: '20px', marginLeft: '0.5rem' }} strokeWidth="4" />
             )}
-          </Box>
+          </div>
           {!loading && (
-            <IconButton
-              size="small"
+            <Button
+              icon="pi pi-times"
               onClick={handleRemove}
               disabled={disabled}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
+              text
+              rounded
+              severity="secondary"
+            />
           )}
-        </Paper>
+        </div>
       ) : (
-        <Paper
+        <div
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
           onDrop={handleDrop}
-          sx={{
-            p: 3,
+          style={{
+            padding: '2rem',
             textAlign: 'center',
             border: '2px dashed',
-            borderColor: dragActive ? 'primary.main' : 'grey.300',
-            backgroundColor: dragActive ? 'primary.50' : 'background.paper',
+            borderColor: dragActive ? colors.primary.main : '#d0d0d0',
+            backgroundColor: dragActive ? colors.primary[50] : 'white',
             cursor: disabled || loading ? 'not-allowed' : 'pointer',
             opacity: disabled || loading ? 0.6 : 1,
             transition: 'all 0.2s ease',
-            '&:hover': {
-              borderColor: disabled || loading ? 'grey.300' : 'primary.main',
-              backgroundColor: disabled || loading ? 'background.paper' : 'primary.50',
-            },
+            borderRadius: '8px',
           }}
         >
-          <UploadIcon sx={{ fontSize: 48, color: 'primary.main', mb: 1 }} />
-          <Typography variant="body1" gutterBottom>
+          <i className="pi pi-cloud-upload" style={{ fontSize: '3rem', color: colors.primary.main, marginBottom: '0.5rem', display: 'block' }} />
+          <p style={{ fontSize: '1rem', marginBottom: '1rem' }}>
             Drop PDF file here or
-          </Typography>
+          </p>
           <Button
-            variant="outlined"
-            component="label"
-            htmlFor="pdf-file-upload"
+            label={loading ? 'Processing...' : 'Browse Files'}
+            icon={loading ? undefined : 'pi pi-upload'}
+            onClick={() => document.getElementById('pdf-file-upload')?.click()}
             disabled={disabled || loading}
-            startIcon={loading ? <CircularProgress size={16} /> : <UploadIcon />}
-          >
-            {loading ? 'Processing...' : 'Browse Files'}
-          </Button>
-          <Typography variant="caption" display="block" sx={{ mt: 1 }} color="text.secondary">
+            outlined
+          />
+          <p style={{ fontSize: '0.75rem', color: colors.text.secondary, marginTop: '0.5rem' }}>
             Supported format: PDF (max 10MB)
-          </Typography>
-        </Paper>
+          </p>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };

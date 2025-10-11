@@ -1,27 +1,17 @@
-import React, { useState, useCallback } from "react";
-import {
-  ThemeProvider,
-  CssBaseline,
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-  Grid,
-  Box,
-  Paper,
-  IconButton,
-  Fade,
-} from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
+import React, { useState, useCallback, useEffect } from "react";
+import { Button } from "primereact/button";
 import { SearchBar } from "./components/SearchBar";
 import { ProcessList } from "./components/ProcessList";
 import { ProcessDetailsPanel } from "./components/ProcessDetailsPanel";
 import { InputModeSelector } from "./components/InputModeSelector";
 import { FileUpload } from "./components/FileUpload";
-import { theme } from "./theme";
+import { initTheme, colors } from "./theme";
 import { BusinessProcess, SearchResult } from "./types";
-import { AccountTree } from "@mui/icons-material";
 import { mockProcesses } from "./data/mockProcesses";
+
+import "primereact/resources/themes/lara-light-green/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 type InputMode = 'text' | 'file' | null;
 
@@ -31,6 +21,10 @@ const App: React.FC = () => {
   const [selectedProcess, setSelectedProcess] =
     useState<BusinessProcess | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    initTheme();
+  }, []);
 
   const handleSearch = useCallback(async (query: string) => {
     // If query is empty, clear results
@@ -147,107 +141,95 @@ const App: React.FC = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-
+    <div>
       {/* App Header */}
-      <AppBar
-        position="static"
-        elevation={0}
-        sx={{ backgroundColor: "primary.main" }}
-      >
-        <Toolbar>
+      <div style={{ 
+        backgroundColor: colors.primary.main, 
+        color: 'white',
+        padding: '1rem 1.5rem',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {inputMode !== null && (
-            <IconButton
-              color="inherit"
+            <Button
+              icon="pi pi-arrow-left"
               onClick={handleBackToModeSelection}
-              sx={{ mr: 2 }}
               disabled={loading}
-            >
-              <ArrowBack />
-            </IconButton>
+              text
+              severity="secondary"
+              style={{ color: 'white' }}
+            />
           )}
-          <AccountTree />
-          <Typography variant="h5" component="h1" sx={{ ml: 2, fontWeight: 600 }}>
+          <i className="pi pi-sitemap" style={{ fontSize: '1.5rem' }} />
+          <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 600 }}>
             OpenFlow Atlas
-          </Typography>
-          <Typography variant="subtitle1" sx={{ ml: 2, opacity: 0.9 }}>
+          </h1>
+          <span style={{ opacity: 0.9, fontSize: '1rem' }}>
             Business Process Discovery Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
+          </span>
+        </div>
+      </div>
 
       {/* Main Content Area */}
       {inputMode === null ? (
         // Step 1: Mode Selection
-        <Fade in={true} timeout={500}>
-          <Box>
-            <InputModeSelector onModeSelect={handleModeSelect} />
-          </Box>
-        </Fade>
+        <InputModeSelector onModeSelect={handleModeSelect} />
       ) : (
-        <Fade in={true} timeout={300}>
-          <Container maxWidth="xl" sx={{ py: 3 }}>
-            {/* Step 2: Input Area (Text or File) */}
-            <Box sx={{ mb: 3 }}>
-              {inputMode === 'text' ? (
-                <SearchBar onSearch={handleSearch} loading={loading} />
-              ) : (
-                <FileUpload
-                  onFileUpload={handleFileUpload}
+        <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '1.5rem' }}>
+          {/* Step 2: Input Area (Text or File) */}
+          <div style={{ marginBottom: '1.5rem' }}>
+            {inputMode === 'text' ? (
+              <SearchBar onSearch={handleSearch} loading={loading} />
+            ) : (
+              <FileUpload
+                onFileUpload={handleFileUpload}
+                loading={loading}
+                disabled={loading}
+              />
+            )}
+          </div>
+
+          {/* Step 3: Results Display */}
+          {searchResult && searchResult.processes.length > 0 && (
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: selectedProcess ? '40% 60%' : '1fr',
+              gap: '1.5rem',
+              minHeight: 'calc(100vh - 280px)'
+            }}>
+              {/* Process List */}
+              <div style={{ height: '100%', overflow: 'hidden' }}>
+                <ProcessList
+                  processes={searchResult.processes}
+                  selectedProcess={selectedProcess}
+                  onProcessSelect={handleProcessSelect}
                   loading={loading}
-                  disabled={loading}
                 />
+              </div>
+
+              {/* Details Panel - Only show when process is selected */}
+              {selectedProcess && (
+                <div style={{ height: '100%', overflow: 'hidden' }}>
+                  <ProcessDetailsPanel process={selectedProcess} />
+                </div>
               )}
-            </Box>
+            </div>
+          )}
 
-            {/* Step 3: Results Display */}
-            {searchResult && searchResult.processes.length > 0 && (
-              <Fade in={true} timeout={500}>
-                <Grid container spacing={3} sx={{ minHeight: "calc(100vh - 280px)" }}>
-                  {/* Process List */}
-                  <Grid item xs={12} md={selectedProcess ? 5 : 12}>
-                    <Paper sx={{ height: "100%", overflow: "hidden" }}>
-                      <ProcessList
-                        processes={searchResult.processes}
-                        selectedProcess={selectedProcess}
-                        onProcessSelect={handleProcessSelect}
-                        loading={loading}
-                      />
-                    </Paper>
-                  </Grid>
-
-                  {/* Details Panel - Only show when process is selected */}
-                  {selectedProcess && (
-                    <Grid item xs={12} md={7}>
-                      <Fade in={true} timeout={300}>
-                        <Paper sx={{ height: "100%", overflow: "hidden" }}>
-                          <ProcessDetailsPanel process={selectedProcess} />
-                        </Paper>
-                      </Fade>
-                    </Grid>
-                  )}
-                </Grid>
-              </Fade>
-            )}
-
-            {/* No Results State */}
-            {searchResult && searchResult.processes.length === 0 && (
-              <Fade in={true} timeout={500}>
-                <Box sx={{ textAlign: 'center', py: 8 }}>
-                  <Typography variant="h6" color="text.secondary" gutterBottom>
-                    No matching processes found
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Try adjusting your search query or upload a different document
-                  </Typography>
-                </Box>
-              </Fade>
-            )}
-          </Container>
-        </Fade>
+          {/* No Results State */}
+          {searchResult && searchResult.processes.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+              <h3 style={{ color: colors.text.secondary, marginBottom: '0.5rem' }}>
+                No matching processes found
+              </h3>
+              <p style={{ color: colors.text.secondary }}>
+                Try adjusting your search query or upload a different document
+              </p>
+            </div>
+          )}
+        </div>
       )}
-    </ThemeProvider>
+    </div>
   );
 };
 

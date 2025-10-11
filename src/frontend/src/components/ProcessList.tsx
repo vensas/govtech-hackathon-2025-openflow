@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Chip,
-  Paper,
-  Alert,
-} from '@mui/material';
+import { Card } from 'primereact/card';
+import { Chip } from 'primereact/chip';
+import { Message } from 'primereact/message';
+import { Divider } from 'primereact/divider';
 import { BusinessProcess } from '../types';
+import { colors } from '../theme';
 
 interface ProcessListProps {
   processes: BusinessProcess[];
@@ -27,92 +21,84 @@ export const ProcessList: React.FC<ProcessListProps> = ({
 }) => {
   if (loading) {
     return (
-      <Box p={3}>
-        <Typography>Searching processes...</Typography>
-      </Box>
+      <Card>
+        <div style={{ padding: '1.5rem' }}>
+          <p>Searching processes...</p>
+        </div>
+      </Card>
     );
   }
 
   if (processes.length === 0) {
     return (
-      <Box p={3}>
-        <Alert severity="info">
-          No processes found. Try adjusting your search query.
-        </Alert>
-      </Box>
+      <Card>
+        <div style={{ padding: '1.5rem' }}>
+          <Message severity="info" text="No processes found. Try adjusting your search query." />
+        </div>
+      </Card>
     );
   }
 
   return (
-    <Box>
-      <Box p={2} borderBottom="1px solid" borderColor="divider">
-        <Typography variant="h6" color="primary">
+    <Card style={{ height: '100%' }}>
+      <div style={{ padding: '1rem', borderBottom: '1px solid #e0e0e0' }}>
+        <h3 style={{ color: colors.primary.main, margin: 0, marginBottom: '0.5rem' }}>
           Found {processes.length} matching processes
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
+        </h3>
+        <p style={{ fontSize: '0.875rem', color: colors.text.secondary, margin: 0 }}>
           Click on a process to view details and BPMN diagram
-        </Typography>
-      </Box>
+        </p>
+      </div>
 
-      <List sx={{ p: 0 }}>
+      <div style={{ padding: 0 }}>
         {processes.map((process, index) => (
           <React.Fragment key={process.id}>
-            <ListItem
-              button
-              selected={selectedProcess?.id === process.id}
+            <div
               onClick={() => onProcessSelect(process)}
-              sx={{
-                py: 2,
-                px: 2,
-                '&.Mui-selected': {
-                  backgroundColor: 'primary.50',
-                  borderRight: '4px solid',
-                  borderRightColor: 'primary.main',
-                },
-                '&:hover': {
-                  backgroundColor: 'action.hover',
-                },
+              style={{
+                padding: '1rem',
+                cursor: 'pointer',
+                backgroundColor: selectedProcess?.id === process.id ? colors.primary[50] : 'transparent',
+                borderRight: selectedProcess?.id === process.id ? `4px solid ${colors.primary.main}` : 'none',
+                transition: 'background-color 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                if (selectedProcess?.id !== process.id) {
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (selectedProcess?.id !== process.id) {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
               }}
             >
-              <ListItemText
-                primary={
-                  <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                    <Typography variant="subtitle1" fontWeight={600}>
-                      {process.name}
-                    </Typography>
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Typography variant="body2" color="primary.main" fontWeight={500}>
-                        {Math.round(process.score * 100)}%
-                      </Typography>
-                    </Box>
-                  </Box>
-                }
-                secondary={
-                  <Box>
-                    <Typography variant="body2" color="text.secondary" mb={1}>
-                      {process.description.substring(0, 120)}...
-                    </Typography>
-                    <Box display="flex" flexWrap="wrap" gap={0.5}>
-                      <Chip
-                        label={process.category}
-                        size="small"
-                        color="primary"
-                        variant="outlined"
-                      />
-                      <Chip
-                        label={process.owner.department}
-                        size="small"
-                        variant="outlined"
-                      />
-                    </Box>
-                  </Box>
-                }
-              />
-            </ListItem>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <h4 style={{ fontWeight: 600, margin: 0 }}>
+                  {process.name}
+                </h4>
+                <span style={{ fontSize: '0.875rem', color: colors.primary.main, fontWeight: 500 }}>
+                  {Math.round(process.score * 100)}%
+                </span>
+              </div>
+              <p style={{ fontSize: '0.875rem', color: colors.text.secondary, marginBottom: '0.5rem' }}>
+                {process.description.substring(0, 120)}...
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
+                <Chip 
+                  label={process.category} 
+                  style={{ fontSize: '0.75rem', backgroundColor: colors.primary.light, color: 'white' }}
+                />
+                <Chip 
+                  label={process.owner.department} 
+                  style={{ fontSize: '0.75rem' }}
+                />
+              </div>
+            </div>
             {index < processes.length - 1 && <Divider />}
           </React.Fragment>
         ))}
-      </List>
-    </Box>
+      </div>
+    </Card>
   );
 };

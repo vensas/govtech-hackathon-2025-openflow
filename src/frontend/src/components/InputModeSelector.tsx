@@ -1,17 +1,6 @@
 import React from 'react';
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-  Container,
-  alpha,
-} from '@mui/material';
-import {
-  Edit as EditIcon,
-  Upload as UploadIcon,
-} from '@mui/icons-material';
+import { Card } from 'primereact/card';
+import { colors } from '../theme';
 
 interface InputModeSelectorProps {
   onModeSelect: (mode: 'text' | 'file') => void;
@@ -19,119 +8,117 @@ interface InputModeSelectorProps {
 
 export const InputModeSelector: React.FC<InputModeSelectorProps> = ({ onModeSelect }) => {
   return (
-    <Container maxWidth="md">
-      <Box sx={{ textAlign: 'center', mb: 6, mt: 8 }}>
-        <Typography variant="h4" gutterBottom fontWeight={600} color="primary.main">
+    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <div style={{ textAlign: 'center', marginBottom: '3rem', marginTop: '4rem' }}>
+        <h2 style={{ fontWeight: 600, color: colors.primary.main, marginBottom: '1rem' }}>
           How would you like to find a process?
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
+        </h2>
+        <p style={{ fontSize: '1rem', color: colors.text.secondary }}>
           Choose your preferred input method to discover relevant business processes
-        </Typography>
-      </Box>
+        </p>
+      </div>
 
-      <Box 
-        sx={{ 
+      <div 
+        style={{ 
           display: 'grid', 
-          gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-          gap: 3,
-          maxWidth: 800,
-          mx: 'auto',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '1.5rem',
+          maxWidth: '800px',
+          margin: '0 auto',
         }}
       >
         {/* Text Query Option */}
         <Card 
-          elevation={0}
-          sx={{ 
-            border: '2px solid',
-            borderColor: 'divider',
+          onClick={() => onModeSelect('text')}
+          style={{ 
+            border: '2px solid #e0e0e0',
+            cursor: 'pointer',
             transition: 'all 0.3s ease',
-            '&:hover': {
-              borderColor: 'primary.main',
-              transform: 'translateY(-4px)',
-              boxShadow: (theme) => `0 8px 24px ${alpha(theme.palette.primary.main, 0.15)}`,
-            },
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = colors.primary.main;
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = `0 8px 24px ${colors.primary.main}40`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#e0e0e0';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
           }}
         >
-          <CardActionArea 
-            onClick={() => onModeSelect('text')}
-            sx={{ height: '100%', p: 2 }}
-          >
-            <CardContent sx={{ textAlign: 'center', py: 4 }}>
-              <Box
-                sx={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: '50%',
-                  backgroundColor: 'primary.50',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mx: 'auto',
-                  mb: 3,
-                }}
-              >
-                <EditIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-              </Box>
-              <Typography variant="h5" gutterBottom fontWeight={600}>
-                Text Query
-              </Typography>
-              <Typography variant="body2" color="text.secondary" paragraph>
-                Ask questions in natural language and get instant results
-              </Typography>
-              <Typography variant="caption" color="primary.main" fontWeight={500}>
-                Example: "How is procurement handled?"
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <div
+              style={{
+                width: '80px',
+                height: '80px',
+                borderRadius: '50%',
+                backgroundColor: colors.primary[50],
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem',
+              }}
+            >
+              <i className="pi pi-pencil" style={{ fontSize: '2.5rem', color: colors.primary.main }} />
+            </div>
+            <h3 style={{ fontWeight: 600, marginBottom: '0.75rem' }}>
+              Text Query
+            </h3>
+            <p style={{ fontSize: '0.875rem', color: colors.text.secondary, marginBottom: '1rem' }}>
+              Ask questions in natural language and get instant results
+            </p>
+            <span style={{ fontSize: '0.75rem', color: colors.primary.main, fontWeight: 500 }}>
+              Example: "How is procurement handled?"
+            </span>
+          </div>
         </Card>
 
         {/* PDF Upload Option */}
         <Card 
-          elevation={0}
-          sx={{ 
-            border: '2px solid',
-            borderColor: 'divider',
+          onClick={() => onModeSelect('file')}
+          style={{ 
+            border: '2px solid #e0e0e0',
+            cursor: 'pointer',
             transition: 'all 0.3s ease',
-            '&:hover': {
-              borderColor: 'primary.main',
-              transform: 'translateY(-4px)',
-              boxShadow: (theme) => `0 8px 24px ${alpha(theme.palette.primary.main, 0.15)}`,
-            },
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = colors.primary.main;
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = `0 8px 24px ${colors.primary.main}40`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#e0e0e0';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
           }}
         >
-          <CardActionArea 
-            onClick={() => onModeSelect('file')}
-            sx={{ height: '100%', p: 2 }}
-          >
-            <CardContent sx={{ textAlign: 'center', py: 4 }}>
-              <Box
-                sx={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: '50%',
-                  backgroundColor: 'secondary.50',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mx: 'auto',
-                  mb: 3,
-                }}
-              >
-                <UploadIcon sx={{ fontSize: 40, color: 'secondary.main' }} />
-              </Box>
-              <Typography variant="h5" gutterBottom fontWeight={600}>
-                PDF Upload
-              </Typography>
-              <Typography variant="body2" color="text.secondary" paragraph>
-                Upload a process description document to find matches
-              </Typography>
-              <Typography variant="caption" color="secondary.main" fontWeight={500}>
-                Drag & drop or browse your files
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <div
+              style={{
+                width: '80px',
+                height: '80px',
+                borderRadius: '50%',
+                backgroundColor: colors.secondary[50],
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem',
+              }}
+            >
+              <i className="pi pi-upload" style={{ fontSize: '2.5rem', color: colors.secondary.main }} />
+            </div>
+            <h3 style={{ fontWeight: 600, marginBottom: '0.75rem' }}>
+              PDF Upload
+            </h3>
+            <p style={{ fontSize: '0.875rem', color: colors.text.secondary, marginBottom: '1rem' }}>
+              Upload a process description document to find matches
+            </p>
+            <span style={{ fontSize: '0.75rem', color: colors.secondary.main, fontWeight: 500 }}>
+              Drag & drop or browse your files
+            </span>
+          </div>
         </Card>
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 };

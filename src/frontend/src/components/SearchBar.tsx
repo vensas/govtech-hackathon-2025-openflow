@@ -1,15 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-  TextField,
-  InputAdornment,
-  IconButton,
-  Box,
-  CircularProgress,
-} from '@mui/material';
-import { 
-  Search as SearchIcon, 
-  Clear as ClearIcon,
-} from '@mui/icons-material';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -49,47 +41,40 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, loading = false 
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        placeholder="Ask about business processes... (e.g., 'How is procurement over 10k EUR handled?')"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        disabled={loading}
-        autoFocus
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              {loading ? (
-                <CircularProgress size={24} sx={{ mr: 1 }} />
-              ) : query ? (
-                <IconButton
-                  onClick={handleClear}
-                  size="small"
-                  sx={{ mr: 0.5 }}
-                >
-                  <ClearIcon />
-                </IconButton>
-              ) : null}
-              <IconButton
-                onClick={handleSubmit}
-                disabled={loading || !query.trim()}
-                color="primary"
-              >
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            backgroundColor: 'background.paper',
+    <form onSubmit={handleSubmit}>
+      <div className="p-inputgroup" style={{ width: '100%' }}>
+        <InputText
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Ask about business processes... (e.g., 'How is procurement over 10k EUR handled?')"
+          disabled={loading}
+          autoFocus
+          style={{
             fontSize: '1.1rem',
-            padding: '8px 14px',
-          },
-        }}
-      />
-    </Box>
+            padding: '0.75rem 1rem',
+            width: '100%',
+          }}
+        />
+        {loading ? (
+          <span className="p-inputgroup-addon" style={{ backgroundColor: 'white', border: '1px solid #ced4da', borderLeft: 'none' }}>
+            <ProgressSpinner style={{ width: '24px', height: '24px' }} strokeWidth="4" />
+          </span>
+        ) : query ? (
+          <Button
+            icon="pi pi-times"
+            onClick={handleClear}
+            type="button"
+            text
+            severity="secondary"
+          />
+        ) : null}
+        <Button
+          icon="pi pi-search"
+          onClick={handleSubmit}
+          disabled={loading || !query.trim()}
+          type="submit"
+        />
+      </div>
+    </form>
   );
 };
