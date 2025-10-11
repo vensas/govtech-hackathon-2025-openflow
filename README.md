@@ -2,6 +2,23 @@
 
 A beautiful RAG-powered dashboard for business process discovery with BPMN visualization capabilities.
 
+## Overview
+
+The Saarland government's F13 AI platform provides a Retrieval-Augmented Generation (RAG) service that enables embedding of process embedding in a vector space for usage in natural language processing (RAG). It is planned to increase the amount of information embedded into this system. 
+
+```mermaid
+flowchart LR
+    A[Intranet / Online / FB / Docs]
+    B[Annotation]
+    C[(Aggregated Vector DB)]
+    D[Modeler]
+    E[BPMN]
+
+    A --> B --> C --> D --> E
+```
+
+This solution, named "OpenFlow Atlas Dashboard", is a frontend application that connects to the F13 RAG service to allow users to search for and explore business processes using natural language queries to identify processes relevant to their department, resort and daily work.
+
 ## Features
 
 - 🔍 **Natural Language Search**: Ask questions about business processes in plain language
@@ -82,14 +99,6 @@ src/
 ├── App.tsx            # Main application
 └── index.tsx          # Entry point
 ```
-
-## Design System
-
-The dashboard uses a grass-green color palette emphasizing:
-- **Primary Green**: #4CAF50 (Material Green 500)
-- **Light Green**: #81C784 (Material Green 300) 
-- **Dark Green**: #388E3C (Material Green 700)
-- **Background**: Subtle green-tinted whites (#f8fdf8)
 
 ## Integration Notes
 
