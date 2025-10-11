@@ -1,10 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Button } from "primereact/button";
-import { SearchBar } from "./components/SearchBar";
+import { ChatInput } from "./components/ChatInput";
 import { ProcessList } from "./components/ProcessList";
 import { ProcessDetailsPanel } from "./components/ProcessDetailsPanel";
-import { InputModeSelector } from "./components/InputModeSelector";
-import { FileUpload } from "./components/FileUpload";
 import { initTheme, colors } from "./theme";
 import { BusinessProcess, SearchResult } from "./types";
 import { mockProcesses } from "./data/mockProcesses";
@@ -13,10 +10,7 @@ import "primereact/resources/themes/lara-light-green/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
-type InputMode = 'text' | 'file' | null;
-
 const App: React.FC = () => {
-  const [inputMode, setInputMode] = useState<InputMode>(null);
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
   const [selectedProcess, setSelectedProcess] =
     useState<BusinessProcess | null>(null);
@@ -26,56 +20,80 @@ const App: React.FC = () => {
     initTheme();
   }, []);
 
-  const handleSearch = useCallback(async (query: string) => {
-    // If query is empty, clear results
-    if (!query || query.trim() === '') {
-      setSearchResult(null);
-      setSelectedProcess(null);
-      setLoading(false);
-      return;
-    }
-
+  const handleChatSubmit = useCallback(async (query: string, file?: File) => {
     setLoading(true);
     setSelectedProcess(null);
 
     // Simulate API call with realistic delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    const delay = file ? 1500 : 800;
+    await new Promise((resolve) => setTimeout(resolve, delay));
 
-    // Mock search logic - filter processes based on query
-    const lowerQuery = query.toLowerCase();
-    const filteredProcesses = mockProcesses
-      .map(process => {
-        // Calculate a mock relevance score
-        let score = process.score;
-        
-        if (process.name.toLowerCase().includes(lowerQuery)) {
-          score = Math.min(score + 0.15, 0.99);
-        }
-        if (process.description.toLowerCase().includes(lowerQuery)) {
-          score = Math.min(score + 0.08, 0.99);
-        }
-        if (process.category.toLowerCase().includes(lowerQuery)) {
-          score = Math.min(score + 0.05, 0.99);
-        }
-        
-        return { ...process, score };
-      })
-      .filter(process => {
-        // Filter by relevance
-        const matchesName = process.name.toLowerCase().includes(lowerQuery);
-        const matchesDescription = process.description.toLowerCase().includes(lowerQuery);
-        const matchesCategory = process.category.toLowerCase().includes(lowerQuery);
-        const matchesOwner = process.owner.department.toLowerCase().includes(lowerQuery);
-        
-        return matchesName || matchesDescription || matchesCategory || matchesOwner;
-      })
-      .sort((a, b) => b.score - a.score); // Sort by score descending
+    let filteredProcesses: typeof mockProcesses = [];
+    let queryText = query;
+
+    if (file) {
+      // Mock: Extract text from PDF and search
+      // In reality, you'd send the PDF to backend for text extraction
+      const mockExtractedText = `
+        This document describes the procurement process for government agencies.
+        Purchases exceeding 10,000 EUR require formal tender procedures.
+        The process includes budget approval, vendor selection, and compliance checks.
+      `;
+
+      const combinedQuery = `${query} ${mockExtractedText}`.toLowerCase();
+      
+      filteredProcesses = mockProcesses
+        .map(process => {
+          let score = process.score;
+          
+          if (combinedQuery.includes(process.name.toLowerCase())) {
+            score = Math.min(score * 1.05, 1.0);
+          }
+          if (combinedQuery.includes(process.category.toLowerCase())) {
+            score = Math.min(score * 1.02, 1.0);
+          }
+          
+          return { ...process, score };
+        })
+        .filter(process => process.score > 0.5)
+        .sort((a, b) => b.score - a.score);
+
+      queryText = query ? `${query} (with ${file.name})` : `Uploaded: ${file.name}`;
+    } else if (query) {
+      // Text-only search
+      const lowerQuery = query.toLowerCase();
+      filteredProcesses = mockProcesses
+        .map(process => {
+          let score = process.score;
+          
+          if (process.name.toLowerCase().includes(lowerQuery)) {
+            score = Math.min(score * 1.03, 1.0);
+          }
+          if (process.description.toLowerCase().includes(lowerQuery)) {
+            score = Math.min(score * 1.01, 1.0);
+          }
+          if (process.category.toLowerCase().includes(lowerQuery)) {
+            score = Math.min(score * 1.005, 1.0);
+          }
+          
+          return { ...process, score };
+        })
+        .filter(process => {
+          const matchesName = process.name.toLowerCase().includes(lowerQuery);
+          const matchesDescription = process.description.toLowerCase().includes(lowerQuery);
+          const matchesCategory = process.category.toLowerCase().includes(lowerQuery);
+          const matchesOwner = process.owner.department.toLowerCase().includes(lowerQuery);
+          
+          return matchesName || matchesDescription || matchesCategory || matchesOwner;
+        })
+        .sort((a, b) => b.score - a.score);
+    }
 
     setSearchResult({
-      query: { text: query, timestamp: new Date() },
+      query: { text: queryText, timestamp: new Date() },
       processes: filteredProcesses,
       totalFound: filteredProcesses.length,
-      searchTime: 0.65 + Math.random() * 0.4, // Random time between 0.65-1.05s
+      searchTime: 0.65 + Math.random() * 0.4,
     });
 
     setLoading(false);
@@ -85,81 +103,17 @@ const App: React.FC = () => {
     setSelectedProcess(process);
   };
 
-  const handleFileUpload = useCallback(async (file: File) => {
-    setLoading(true);
-    setSelectedProcess(null);
-
-    // Simulate PDF processing with realistic delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Mock: Extract text from PDF and search
-    // In reality, you'd send the PDF to backend for text extraction
-    const mockExtractedText = `
-      This document describes the procurement process for government agencies.
-      Purchases exceeding 10,000 EUR require formal tender procedures.
-      The process includes budget approval, vendor selection, and compliance checks.
-    `;
-
-    // Perform search based on extracted content
-    const lowerQuery = mockExtractedText.toLowerCase();
-    const filteredProcesses = mockProcesses
-      .map(process => {
-        let score = process.score * 0.7; // Base score reduced for file uploads
-        
-        if (mockExtractedText.toLowerCase().includes(process.name.toLowerCase())) {
-          score = Math.min(score + 0.25, 0.99);
-        }
-        if (mockExtractedText.toLowerCase().includes(process.category.toLowerCase())) {
-          score = Math.min(score + 0.15, 0.99);
-        }
-        
-        return { ...process, score };
-      })
-      .filter(process => process.score > 0.5) // Only show relevant matches
-      .sort((a, b) => b.score - a.score);
-
-    setSearchResult({
-      query: { text: `Uploaded: ${file.name}`, timestamp: new Date() },
-      processes: filteredProcesses,
-      totalFound: filteredProcesses.length,
-      searchTime: 1.2 + Math.random() * 0.5,
-    });
-
-    setLoading(false);
-  }, []);
-
-  const handleModeSelect = (mode: InputMode) => {
-    setInputMode(mode);
-    setSearchResult(null);
-    setSelectedProcess(null);
-  };
-
-  const handleBackToModeSelection = () => {
-    setInputMode(null);
-    setSearchResult(null);
-    setSelectedProcess(null);
-  };
-
   return (
-    <div>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* App Header */}
       <div style={{ 
         backgroundColor: colors.primary.main, 
         color: 'white',
         padding: '1rem 1.5rem',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        flexShrink: 0,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {inputMode !== null && (
-            <Button
-              icon="pi pi-arrow-left"
-              onClick={handleBackToModeSelection}
-              disabled={loading}
-              text
-              severity="secondary"
-              style={{ color: 'white' }}
-            />
-          )}
           <i className="pi pi-sitemap" style={{ fontSize: '1.5rem' }} />
           <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 600 }}>
             OpenFlow Atlas
@@ -171,31 +125,30 @@ const App: React.FC = () => {
       </div>
 
       {/* Main Content Area */}
-      {inputMode === null ? (
-        // Step 1: Mode Selection
-        <InputModeSelector onModeSelect={handleModeSelect} />
-      ) : (
-        <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '1.5rem' }}>
-          {/* Step 2: Input Area (Text or File) */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            {inputMode === 'text' ? (
-              <SearchBar onSearch={handleSearch} loading={loading} />
-            ) : (
-              <FileUpload
-                onFileUpload={handleFileUpload}
-                loading={loading}
-                disabled={loading}
-              />
-            )}
-          </div>
-
-          {/* Step 3: Results Display */}
-          {searchResult && searchResult.processes.length > 0 && (
+      <div style={{ 
+        flex: 1, 
+        display: 'flex', 
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}>
+        <div style={{ 
+          maxWidth: '1600px', 
+          width: '100%',
+          margin: '0 auto', 
+          padding: '1.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+        }}>
+          {/* Results Display */}
+          {searchResult && searchResult.processes.length > 0 ? (
             <div style={{ 
               display: 'grid', 
               gridTemplateColumns: selectedProcess ? '40% 60%' : '1fr',
               gap: '1.5rem',
-              minHeight: 'calc(100vh - 280px)'
+              flex: 1,
+              overflow: 'hidden',
+              marginBottom: '1.5rem',
             }}>
               {/* Process List */}
               <div style={{ height: '100%', overflow: 'hidden' }}>
@@ -214,11 +167,16 @@ const App: React.FC = () => {
                 </div>
               )}
             </div>
-          )}
-
-          {/* No Results State */}
-          {searchResult && searchResult.processes.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+          ) : searchResult && searchResult.processes.length === 0 ? (
+            /* No Results State */
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '4rem 0',
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
               <h3 style={{ color: colors.text.secondary, marginBottom: '0.5rem' }}>
                 No matching processes found
               </h3>
@@ -226,9 +184,32 @@ const App: React.FC = () => {
                 Try adjusting your search query or upload a different document
               </p>
             </div>
+          ) : (
+            /* Empty State - Show when no search has been performed */
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '4rem 2rem',
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+              <i className="pi pi-search" style={{ fontSize: '4rem', color: colors.primary.light, marginBottom: '1rem' }} />
+              <h2 style={{ color: colors.text.primary, marginBottom: '0.5rem' }}>
+                Search for Business Processes
+              </h2>
+              <p style={{ color: colors.text.secondary, maxWidth: '600px', margin: '0 auto' }}>
+                Ask questions about government processes in natural language, or attach a PDF document to find matching workflows.
+              </p>
+            </div>
           )}
+
+          {/* Chat Input - Always visible at bottom */}
+          <div style={{ flexShrink: 0 }}>
+            <ChatInput onSubmit={handleChatSubmit} loading={loading} />
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -1,30 +1,30 @@
 // PrimeReact theme configuration
 export const colors = {
   primary: {
-    main: '#4CAF50', // Grass green
-    light: '#81C784',
-    dark: '#388E3C',
+    main: '#2E7D32', // Darker forest green for accent
+    light: '#4CAF50',
+    dark: '#1B5E20',
     contrastText: '#ffffff',
-    50: '#E8F5E9',
+    50: '#F1F8F4',
   },
   secondary: {
-    main: '#2196F3', // Blue for upload
-    light: '#64B5F6',
-    dark: '#1976D2',
+    main: '#1976D2', // Darker blue
+    light: '#42A5F5',
+    dark: '#0D47A1',
     50: '#E3F2FD',
   },
   background: {
-    default: '#f8fdf8',
+    default: '#FAFAFA', // Neutral light gray
     paper: '#ffffff',
   },
   text: {
-    primary: '#1b5e20',
-    secondary: '#2e7d32',
+    primary: '#212121', // Dark gray for better readability
+    secondary: '#616161', // Medium gray
   },
-  success: '#4CAF50',
-  warning: '#FF9800',
-  error: '#F44336',
-  info: '#2196F3',
+  success: '#2E7D32', // Match primary for consistency
+  warning: '#F57C00',
+  error: '#D32F2F',
+  info: '#1976D2',
 };
 
 // Initialize PrimeReact theme
@@ -55,12 +55,12 @@ export const initTheme = () => {
     
     .p-card {
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
       transition: all 0.2s ease-in-out;
     }
     
     .p-card:hover {
-      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
       transform: translateY(-2px);
     }
     

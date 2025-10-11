@@ -3,7 +3,9 @@ export interface BusinessProcess {
   name: string;
   description: string;
   score: number;
+  successfulAdoptions: number;
   category: string;
+  governmentResort: string;
   owner: ProcessOwner;
   sla?: string;
   systems?: string[];

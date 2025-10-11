@@ -33,19 +33,29 @@ export const ProcessCard: React.FC<ProcessCardProps> = ({
           <h3 style={{ fontWeight: 600, flex: 1, margin: 0 }}>
             {process.name}
           </h3>
-          <div style={{ textAlign: 'right', marginLeft: '1rem' }}>
-            <div style={{ fontSize: '0.75rem', color: colors.text.secondary }}>
-              Relevance
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginLeft: '1rem', alignItems: 'flex-end' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: colors.text.secondary, textAlign: 'right' }}>
+                Match Score
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <ProgressBar 
+                  value={getScorePercentage(process.score)} 
+                  style={{ width: '60px', height: '6px' }}
+                  showValue={false}
+                />
+                <span style={{ fontSize: '0.875rem', fontWeight: 600, color: colors.primary.main }}>
+                  {getScorePercentage(process.score)}%
+                </span>
+              </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <ProgressBar 
-                value={getScorePercentage(process.score)} 
-                style={{ width: '60px', height: '6px' }}
-                showValue={false}
-              />
-              <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
-                {getScorePercentage(process.score)}%
-              </span>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.75rem', color: colors.text.secondary }}>
+                Adoptions
+              </div>
+              <div style={{ fontSize: '0.875rem', fontWeight: 600, color: colors.success }}>
+                {process.successfulAdoptions}
+              </div>
             </div>
           </div>
         </div>
@@ -55,12 +65,12 @@ export const ProcessCard: React.FC<ProcessCardProps> = ({
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
-          <Chip label={process.category} style={{ backgroundColor: colors.primary.light, color: 'white' }} />
+          <Chip label={process.category} style={{ backgroundColor: '#E0E0E0', color: '#424242' }} />
           {process.owner && (
-            <Chip label={process.owner.department} />
+            <Chip label={process.owner.department} style={{ backgroundColor: '#F5F5F5', color: '#616161' }} />
           )}
           {process.sla && (
-            <Chip label={`SLA: ${process.sla}`} style={{ backgroundColor: colors.secondary.light, color: 'white' }} />
+            <Chip label={`SLA: ${process.sla}`} style={{ backgroundColor: '#FFF3E0', color: '#E65100' }} />
           )}
         </div>
 

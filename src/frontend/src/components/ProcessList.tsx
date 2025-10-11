@@ -74,24 +74,28 @@ export const ProcessList: React.FC<ProcessListProps> = ({
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                <h4 style={{ fontWeight: 600, margin: 0 }}>
+                <h4 style={{ fontWeight: 600, margin: 0, flex: 1 }}>
                   {process.name}
                 </h4>
-                <span style={{ fontSize: '0.875rem', color: colors.primary.main, fontWeight: 500 }}>
-                  {Math.round(process.score * 100)}%
-                </span>
               </div>
-              <p style={{ fontSize: '0.875rem', color: colors.text.secondary, marginBottom: '0.5rem' }}>
+              <p style={{ fontSize: '0.875rem', color: colors.text.secondary, marginBottom: '0.75rem' }}>
                 {process.description.substring(0, 120)}...
               </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
                 <Chip 
-                  label={process.category} 
-                  style={{ fontSize: '0.75rem', backgroundColor: colors.primary.light, color: 'white' }}
+                  icon="pi pi-chart-line"
+                  label={`${Math.round(process.score * 100)}% Match`}
+                  style={{ fontSize: '0.75rem', backgroundColor: colors.primary.main, color: 'white' }}
                 />
                 <Chip 
-                  label={process.owner.department} 
-                  style={{ fontSize: '0.75rem' }}
+                  icon="pi pi-users"
+                  label={`${process.successfulAdoptions} Adoptions`}
+                  style={{ fontSize: '0.75rem', backgroundColor: '#757575', color: 'white' }}
+                />
+                <Chip 
+                  icon="pi pi-building"
+                  label={process.governmentResort}
+                  style={{ fontSize: '0.75rem', backgroundColor: '#E0E0E0', color: '#424242' }}
                 />
               </div>
             </div>

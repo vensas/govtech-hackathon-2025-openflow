@@ -1,4 +1,5 @@
 import { BusinessProcess } from '../types';
+import { getBpmnForProcess } from './sampleBpmn';
 
 export const mockProcesses: BusinessProcess[] = [
   {
@@ -6,8 +7,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'Procurement Process (>10k EUR)',
     description:
       'Standardized procurement workflow for purchases exceeding 10,000 EUR, including tender requirements, approval workflows, and compliance checks.',
-    score: 0.95,
+    score: 0.78,
+    successfulAdoptions: 87,
     category: 'Procurement',
+    governmentResort: 'Wirtschaft',
     owner: {
       department: 'Procurement Office',
       contactPerson: 'Maria Schmidt',
@@ -30,7 +33,7 @@ export const mockProcesses: BusinessProcess[] = [
       { title: 'Public Procurement Act', reference: 'PPA §23-45', url: '#' },
       { title: 'EU Procurement Directive', reference: '2014/24/EU', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('1'),
     snippets: [
       {
         text: 'All procurement activities exceeding 10,000 EUR must follow the standardized tender process including public announcement and evaluation committee review.',
@@ -49,8 +52,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'Employee Onboarding Process',
     description:
       'Comprehensive onboarding workflow for new employees including documentation, system access, training schedule, and compliance requirements.',
-    score: 0.89,
+    score: 0.72,
+    successfulAdoptions: 124,
     category: 'Human Resources',
+    governmentResort: 'Inneres',
     owner: {
       department: 'Human Resources',
       contactPerson: 'Thomas Mueller',
@@ -78,7 +83,7 @@ export const mockProcesses: BusinessProcess[] = [
       },
       { title: 'Employment Standards Act', reference: 'ESA §12', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('2'),
     snippets: [
       {
         text: 'New employee onboarding must be completed within 5 business days and includes security training, system access setup, and documentation collection.',
@@ -97,8 +102,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'Invoice Approval Workflow',
     description:
       'Multi-level approval process for incoming invoices, including verification, budget checking, payment authorization, and archiving.',
-    score: 0.92,
+    score: 0.65,
+    successfulAdoptions: 203,
     category: 'Finance',
+    governmentResort: 'Finanzen',
     owner: {
       department: 'Finance Department',
       contactPerson: 'Anna Weber',
@@ -120,7 +127,7 @@ export const mockProcesses: BusinessProcess[] = [
       { title: 'Financial Management Act', reference: 'FMA §45', url: '#' },
       { title: 'Tax Code', reference: 'TC §78-82', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('3'),
     snippets: [
       {
         text: 'Invoice approval requires verification of goods/services receipt, budget availability check, and department head authorization.',
@@ -139,8 +146,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'Building Permit Application',
     description:
       'End-to-end workflow for processing building permit applications, including document review, technical assessment, public consultation, and permit issuance.',
-    score: 0.87,
+    score: 0.58,
+    successfulAdoptions: 56,
     category: 'Urban Planning',
+    governmentResort: 'Bauwesen',
     owner: {
       department: 'Planning & Development',
       contactPerson: 'Klaus Becker',
@@ -164,7 +173,7 @@ export const mockProcesses: BusinessProcess[] = [
       { title: 'Building Code', reference: 'BC §12-25', url: '#' },
       { title: 'Urban Planning Act', reference: 'UPA §8', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('4'),
     snippets: [
       {
         text: 'Building permit applications must include complete architectural plans, structural calculations, and proof of property ownership.',
@@ -183,8 +192,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'Intern Onboarding Process',
     description:
       'Streamlined onboarding workflow specifically designed for interns and temporary staff, including short-term access provisioning and orientation.',
-    score: 0.85,
+    score: 0.51,
+    successfulAdoptions: 142,
     category: 'Human Resources',
+    governmentResort: 'Inneres',
     owner: {
       department: 'Human Resources',
       contactPerson: 'Thomas Mueller',
@@ -206,7 +217,7 @@ export const mockProcesses: BusinessProcess[] = [
       { title: 'Data Protection Regulation', reference: 'GDPR Art. 6', url: '#' },
       { title: 'Internship Regulations', reference: 'IR §3', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('5'),
     snippets: [
       {
         text: 'Intern onboarding follows a simplified process with temporary system access and basic orientation training.',
@@ -220,8 +231,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'Travel Request & Reimbursement',
     description:
       'Complete workflow for business travel approval, booking, expense reporting, and reimbursement processing.',
-    score: 0.81,
+    score: 0.43,
+    successfulAdoptions: 178,
     category: 'Finance',
+    governmentResort: 'Finanzen',
     owner: {
       department: 'Finance Department',
       contactPerson: 'Anna Weber',
@@ -244,7 +257,7 @@ export const mockProcesses: BusinessProcess[] = [
       { title: 'Travel Expense Regulation', reference: 'TER §5-12', url: '#' },
       { title: 'Tax Code', reference: 'TC §45', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('6'),
     snippets: [
       {
         text: 'All business travel must be pre-approved by the department head and comply with the travel expense regulations.',
@@ -258,8 +271,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'Document Archive Request',
     description:
       'Process for requesting access to archived documents, including request validation, retrieval authorization, and secure delivery.',
-    score: 0.76,
+    score: 0.34,
+    successfulAdoptions: 91,
     category: 'Records Management',
+    governmentResort: 'Verwaltung',
     owner: {
       department: 'Records & Archive Office',
       contactPerson: 'Sabine Hoffmann',
@@ -280,7 +295,7 @@ export const mockProcesses: BusinessProcess[] = [
       { title: 'Records Management Act', reference: 'RMA §12', url: '#' },
       { title: 'Data Protection Regulation', reference: 'GDPR Art. 6', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('7'),
     snippets: [
       {
         text: 'Archive requests must include proper authorization and comply with data protection regulations.',
@@ -294,8 +309,10 @@ export const mockProcesses: BusinessProcess[] = [
     name: 'IT Equipment Procurement',
     description:
       'Specialized procurement process for IT hardware and software, including technical specifications, vendor selection, and asset management.',
-    score: 0.88,
+    score: 0.68,
+    successfulAdoptions: 112,
     category: 'IT & Technology',
+    governmentResort: 'Digitalisierung',
     owner: {
       department: 'IT Department',
       contactPerson: 'Michael Schulz',
@@ -317,7 +334,7 @@ export const mockProcesses: BusinessProcess[] = [
       { title: 'Public Procurement Act', reference: 'PPA §23-45', url: '#' },
       { title: 'IT Security Policy', reference: 'ITSP §7', url: '#' },
     ],
-    bpmnXml: '<bpmn>mock xml</bpmn>',
+    bpmnXml: getBpmnForProcess('8'),
     snippets: [
       {
         text: 'IT equipment procurement requires technical specification approval and compliance with IT security standards.',
