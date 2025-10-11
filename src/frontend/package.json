@@ -1,0 +1,42 @@
+{
+  "name": "openflow-atlas-dashboard",
+  "version": "1.0.0",
+  "description": "RAG-powered dashboard for business process discovery with BPMN visualization",
+  "main": "src/index.tsx",
+  "scripts": {
+    "dev": "rspack serve --mode development",
+    "build": "rspack build --mode production",
+    "preview": "rspack serve --mode production",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@mui/material": "^5.15.0",
+    "@mui/icons-material": "^5.15.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "bpmn-js": "^17.0.0",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^0.4.0",
+    "@rspack/core": "^0.4.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.2.0",
+    "html-webpack-plugin": "^5.5.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
