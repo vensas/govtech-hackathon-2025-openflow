@@ -41,6 +41,16 @@ flowchart LR
 
 Query: "How do I procure software licenses over 25,000 EUR for our department? Do I need a tender process?
 
+![Demo Flow GIF](demo/openflow-demo.gif)
+
+**What does the demo show?**
+- Natural language search for government processes
+- AI-powered matching via F13 embedding and vector search
+- Rich process metadata (owner, contact, forms, legal basis)
+
+**Goal**
+Showcase the potential of combining F13's AI capabilities with a dedicated process discovery platform.
+
 ### Scope of this Solution
 
 This solution, is a comprehensive government process discovery platform that uses F13's AI capabilities for embedding generation and vector search while maintaining complete ownership of process data, search logic, and user experience.
@@ -63,20 +73,24 @@ flowchart LR
         B[OpenFlow Frontend]
         C[OpenFlow API Service]
         D[(OpenFlow Database)]
+        E[User Service]
       end
       subgraph F13
-         E[Embedding API]
-         F[(Vector Database)]
+         F[Embedding API]
+         G[(Vector Database)]
       end
       subgraph External
-         G[BPMN Modeler]
+         H[BPMN Modeler]
+         I[Intranet API]
       end
       A --> B
       B --> C
       C --> D
-      C --> E
       C --> F
       C --> G
+      C --> H
+      E --> I
+      C --> E
 ```
 
 #### Building Blocks
@@ -89,9 +103,11 @@ flowchart
    subgraph OpenFlow API Service
         B[Process Repository Management]
         C[Search Orchestration & Ranking]
+        D[User Service API]
    end
    subgraph OpenFlow Database
         F[(Process Metadata)]
+        G[(User Profiles & Preferences)]
    end
    subgraph F13 Platform
       J[Embedding Generation API]
@@ -100,6 +116,10 @@ flowchart
    subgraph BPMN Modeler
       L[Workflow Generation Service]
    end
+   subgraph Government Intranet
+      M[Organigram Service API]
+      N[(Organizational Structure Data)]
+   end
       A --> B
       A --> C
       B --> F
@@ -107,9 +127,15 @@ flowchart
       C --> K
       C --> F
       B --> L
+      D --> M
+      M --> N
+      C --> D
+      D --> G
 ```
 
 #### Search Flow Sequence
+
+*Note: User and intranet are omitted for clarity.*
 
 ```mermaid
 sequenceDiagram
@@ -144,6 +170,18 @@ sequenceDiagram
 - Leverages government AI infrastructure
 - No vendor lock-in for search algorithms
 
+**Intranet Organigram Service Integration**:
+- **Centralized organizational data**: Single source of truth for government structure
+- **Real-time hierarchy**: Always up-to-date department and personnel information
+- **User context enrichment**: Provides organizational context for personalization
+- **Contact information**: Authoritative contact details for process owners
+
+**OpenFlow User Service**:
+- **Organizational data abstraction**: Wraps Intranet Organigram API
+- **User profile management**: Combines org data with user preferences
+- **Department filtering**: Enables department-specific process recommendations
+- **Contact enrichment**: Adds hierarchical context to process owners
+
 ### TODOs
 
 **Backend Development**:
@@ -153,6 +191,8 @@ sequenceDiagram
 - [ ] Integrate F13 vector database for similarity search
 - [ ] Implement BPMN modeler integration
 - [ ] Build process management CRUD operations
+- [ ] Implement User Service for Intranet Organigram integration
+- [ ] Build organizational hierarchy caching layer
 
 **Search & Discovery**:
 - [ ] Implement semantic search orchestration
@@ -270,7 +310,35 @@ src/
 - **Version Control**: Maintains BPMN history and process evolution
 - **Validation**: Ensures generated workflows comply with government standards
 
+**Intranet Organigram Service** (External Government System):
+- **Centralized Master Data**: Single source of truth for organizational structure
+- **API Endpoints**:
+  - `GET /api/v1/departments/{id}` - Get department details
+  - `GET /api/v1/departments/{id}/hierarchy` - Get full organizational path
+  - `GET /api/v1/employees/{id}` - Get employee and contact information
+  - `GET /api/v1/search/departments?query={term}` - Search departments
+- **Data Model**: Department ID, name, parent department, contact persons, email, phone
+- **Update Frequency**: Real-time synchronization with HR systems
+- **Access Control**: OAuth 2.0 with government SSO integration
+
+**OpenFlow User Service** (Internal Component):
+- **Purpose**: Abstracts and caches Intranet Organigram data
+- **Responsibilities**:
+  - Fetch and cache organizational hierarchy
+  - Resolve department IDs to full hierarchical paths
+  - Enrich process owners with current contact information
+  - Provide user department context for personalized search
+- **Caching Strategy**: 
+  - Department structure cached for 24 hours
+  - Contact information cached for 1 hour
+  - Invalidation on explicit update signals
+- **API Endpoints**:
+  - `GET /api/v1/users/{userId}/context` - Get user's org context
+  - `GET /api/v1/organizations/hierarchy/{departmentId}` - Get cached hierarchy
+  - `GET /api/v1/contacts/{processId}` - Get enriched contact info for process
+
 **Government Systems**:
+- **Authentication**: Integration with government SSO (Active Directory)
 - **Authentication**: Integration with government SSO (Active Directory)
 - **Document Management**: Links to official forms and legal documents  
 - **Audit & Compliance**: Full traceability for government oversight requirements
