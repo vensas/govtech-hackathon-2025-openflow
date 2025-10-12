@@ -1,54 +1,195 @@
 # OpenFlow
 
-A beautiful RAG-powered dashboard for government process discovery with BPMN visualization capabilities.
+A beautiful AI-powered search for government process discovery with BPMN visualization capabilities.
 
 ## Overview
 
-The Saarland government's F13 AI platform provides a Retrieval-Augmented Generation (RAG) service that enables embedding of process embedding in a vector space for usage in natural language processing (RAG). It is planned to increase the amount of information embedded into this system. 
+The Saarland government's [F13 AI platform](https://f13-os.de/) provides a Retrieval-Augmented Generation (RAG) service with embedding generation and vector similarity search capabilities. **OpenFlow** leverages F13's AI capabilities while maintaining ownership of process data and search orchestration.
+
+### F13 & OpenFlow Integration
 
 ```mermaid
 flowchart LR
-    A[Intranet / Online / FB / Docs]
-    B[Annotation]
-    C[(Aggregated Vector DB)]
-    D[Modeler]
-    E[BPMN]
+    A[Process Data / Documents / BPMN]
+    B[OpenFlow Process Store]
+    C[F13 Embedding API]
+    D[(F13 Vector DB)]
+    E[BPMN Modeler]
 
-    A --> B --> C --> D --> E
+    A --> B
+    B --> C
+    C --> D
+    E --> B
+    B --> E
 ```
 
-This solution, named "OpenFlow", is an application that connects to the F13 service to allow users to search for and explore government processes using natural language queries to identify processes relevant to their department, resort and daily work.
+### Scope of this Solution
 
-## Features
+This solution, is a comprehensive government process discovery platform that uses F13's AI capabilities for embedding generation and vector search while maintaining complete ownership of process data, search logic, and user experience.
 
-- 🔍 **Natural Language Search**: Ask questions about government processes in plain language
-- 📊 **Process Discovery**: Find matching government processes ranked by relevance scores
-- 🌊 **BPMN Visualization**: Interactive workflow diagrams for each process
-- 📞 **Contact Integration**: Direct access to process owners and responsible departments
-- 📋 **Contextual Metadata**: Forms, legal bases, KPIs, and systems information
-- 🌿 **Beautiful Design**: Modern grass-green themed interface with MUI components
+Core functionalities include:
+
+- **Process Management**: Store and manage complete government process repository
+- **Natural Language Search**: Users input queries and documents to find relevant processes  
+- **AI-Powered Matching**: Generate embeddings via F13 and perform similarity search
+- **BPMN Generation**: Automatically generate workflow diagrams when processes are updated
+- **Rich Metadata**: Provide process owners, contact info, forms, legal bases, and analytics
+- **User Personalization**: Track usage, preferences, and department-specific customizations
+
+### Architecture
+
+#### Context
+
+```mermaid
+flowchart LR
+      A[User]
+      subgraph OpenFlow
+        B[OpenFlow Frontend]
+        C[OpenFlow API Service]
+        D[(OpenFlow Database)]
+      end
+      subgraph F13
+         E[Embedding API]
+         F[(Vector Database)]
+      end
+      subgraph External
+         G[BPMN Modeler]
+      end
+      A --> B
+      B --> C
+      C --> D
+      C --> E
+      C --> F
+      C --> G
+```
+
+#### Building Blocks
+
+```mermaid
+flowchart
+   subgraph OpenFlow Frontend
+      A[Search Interface & Process Visualization]
+   end
+   subgraph OpenFlow API Service
+        B[Process Repository Management]
+        C[Search Orchestration & Ranking]
+   end
+   subgraph OpenFlow Database
+        F[(Process Metadata)]
+        H[(BPMN XML Storage)]
+   end
+   subgraph F13 Platform
+      J[Embedding Generation API]
+      K[(Vector Similarity Search)]
+   end
+   subgraph BPMN Modeler
+      L[Workflow Generation Service]
+   end
+      A --> B
+      A --> C
+      B --> F
+      C --> J
+      C --> K
+      C --> F
+      B --> L
+      L --> H
+```
+
+#### Search Flow Sequence
+
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant OpenFlow as OpenFlow API
+    participant F13_Embed as F13 Embedding API
+    participant F13_Vector as F13 Vector DB
+    participant OpenFlow_DB as OpenFlow Database
+
+    User->>OpenFlow: Search query + optional document
+    OpenFlow->>F13_Embed: Generate embeddings for query
+    F13_Embed-->>OpenFlow: Return embedding vector
+    OpenFlow->>F13_Vector: Similarity search with embedding
+    F13_Vector-->>OpenFlow: Return matching process IDs + scores
+    OpenFlow->>OpenFlow_DB: Fetch full process metadata
+    OpenFlow-->>User: Return enriched search results
+```
+
+### Architecture Benefits
+
+**OpenFlow Ownership**:
+- Complete control over process data and business logic
+- Integration with existing government systems
+- Not depicted above but enabled:
+  - Audit trails and compliance features
+  - User personalization and department-specific customizations  
+  - Analytics and usage tracking for government insights
+
+**F13 Integration**:
+- State-of-the-art embedding generation for semantic search
+- High-performance vector similarity search
+- Leverages government AI infrastructure
+- No vendor lock-in for search algorithms
+
+### TODOs
+
+**Backend Development**:
+- [ ] Implement OpenFlow API service (ASP.NET Core)
+- [ ] Set up OpenFlow database schema (process metadata, users, analytics)
+- [ ] Integrate F13 embedding API client
+- [ ] Integrate F13 vector database for similarity search
+- [ ] Implement BPMN modeler integration
+- [ ] Build process management CRUD operations
+
+**Search & Discovery**:
+- [ ] Implement semantic search orchestration
+- [ ] Add user context and personalization features
+- [ ] Build process ranking and filtering logic
+- [ ] Replace mock data with real F13 integration
+
+**User Experience**:
+- [ ] Authentication & Authorization (government SSO)
+- [ ] Department-specific process filtering
+- [ ] User preferences and bookmarking
+- [ ] Search history and analytics dashboard
+
+### Lessons Learned during GovTech Hackathon 2025
+- Setup of F13 cumbersome based on open source documentation (ARM processor architecture, model cannot be loaded, etc.)
+  - [ ] Bug reports created
 
 ## Tech Stack
 
-- **Frontend**: React 18 with TypeScript
-- **UI Framework**: Material-UI (MUI) v5
-- **Build Tool**: RSPACK for fast bundling
-- **Icons**: MUI Icons + Lucide React
-- **BPMN**: bpmn-js for workflow visualization
+**Frontend**:
+- React 18 with TypeScript
+- PrimeReact UI components
+- RSPACK for fast bundling
+- Prime React Icons
+- bpmn-js for workflow visualization
+
+**Backend** (To be implemented):
+- ASP.NET Core with C#
+- Entity Framework Core for database access
+- Microsoft SemanticKernel for AI orchestration
+- PostgreSQL with pgvector extension
+
+**AI & Integration**:
+- F13 Embedding API for semantic vector generation
+- F13 Vector Database for similarity search
+- BPMN Modeler API for workflow generation
+- Government SSO integration
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 24+ 
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd openflow-atlas-dashboard
+git clone <repository-url> openflow
+cd openflow
 ```
 
 2. Install dependencies:
@@ -97,13 +238,29 @@ src/
 └── index.tsx          # Entry point
 ```
 
-## Integration Notes
+## Integration Architecture
 
-This frontend is designed to integrate with:
-- **F13 Government AI Platform** for RAG-powered search
-- **BPMN Generation Service** for workflow diagrams
-- **Process Repository API** for business process metadata
+**OpenFlow as Process Owner**:
+- Maintains complete government process repository
+- Handles user management, preferences, and analytics
+- Orchestrates search across multiple AI services
+- Integrates with existing government systems
+
+**F13 AI Platform Integration**:
+- **Embedding API**: Converts text queries and documents to vector representations
+- **Vector Database**: Performs high-speed similarity search across process embeddings
+- **Infrastructure**: Leverages government AI platform for secure, compliant processing
+
+**BPMN Modeler Integration**:
+- **Automated Generation**: Creates workflow diagrams when processes are updated
+- **Version Control**: Maintains BPMN history and process evolution
+- **Validation**: Ensures generated workflows comply with government standards
+
+**Government Systems**:
+- **Authentication**: Integration with government SSO (Active Directory)
+- **Document Management**: Links to official forms and legal documents  
+- **Audit & Compliance**: Full traceability for government oversight requirements
 
 ## License
 
-Government Open Source License - See LICENSE file for details.
+MIT License
