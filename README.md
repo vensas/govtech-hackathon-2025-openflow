@@ -39,17 +39,34 @@ flowchart LR
 
 ### Demo
 
-Query: "How do I procure software licenses over 25,000 EUR for our department? Do I need a tender process?
+
+**Demo Persona: Sarah, New Employee**
+Sarah joins the IT department and needs to procure a software license for 26,999 EUR. Unsure about the process and requirements, she uses **OpenFlow** and simply asks:
+
+_"How do I procure software licenses over 25,000 EUR for our department? Do I need a tender process?"_
 
 ![Demo Flow GIF](demo/openflow-demo.gif)
+
+OpenFlow instantly provides:
+- Matching processes ranked by relevance (score and adoption count)
+- The step-by-step procurement workflow (visualized)
+- Contact info for the responsible office
+- Related documents and legal bases
+- Evidence why this process fits her query
+
+Sarah quickly understands what to do, who to contact, and which forms to use—no jargon or manual searching required.
+
 
 **What does the demo show?**
 - Natural language search for government processes
 - AI-powered matching via F13 embedding and vector search
 - Rich process metadata (owner, contact, forms, legal basis)
+- Interactive BPMN workflow visualization
+- Evidence snippets for transparency
 
 **Goal**
-Showcase the potential of combining F13's AI capabilities with a dedicated process discovery platform.
+
+Showcase the potential of combining F13's AI capabilities with a dedicated process discovery platform to make government work more accessible and efficient for everyone—from seasoned administrators to new employees like Sarah.
 
 ### Scope of this Solution
 
@@ -141,16 +158,15 @@ flowchart
 sequenceDiagram
     participant User as User
     participant OpenFlow as OpenFlow API
-    participant F13_Embed as F13 Embedding API
-    participant F13_Vector as F13 Vector DB
+    participant F13_RAG as F13 RAG Service
     participant OpenFlow_DB as OpenFlow Database
 
     User->>OpenFlow: Search query + optional document
-    OpenFlow->>F13_Embed: Generate embeddings for query
-    F13_Embed-->>OpenFlow: Return embedding vector
-    OpenFlow->>F13_Vector: Similarity search with embedding
-    F13_Vector-->>OpenFlow: Return matching process IDs + scores
-    OpenFlow->>OpenFlow_DB: Fetch full process metadata
+    OpenFlow->>F13_RAG: POST /rag/database (query + filters)
+    Note over F13_RAG: Generates query embedding<br/>Performs vector similarity search<br/>Retrieves relevant documents
+    F13_RAG-->>OpenFlow: RAGOutput (answer + sources with metadata)
+    OpenFlow->>OpenFlow_DB: Extract process IDs, fetch full metadata
+    OpenFlow_DB-->>OpenFlow: Process details (BPMN, contacts, forms, etc.)
     OpenFlow-->>User: Return enriched search results
 ```
 
@@ -311,14 +327,17 @@ src/frontend/
 - Integrates with existing government systems
 
 **F13 AI Platform Integration**:
-- **Embedding API**: Converts text queries and documents to vector representations
-- **Vector Database**: Performs high-speed similarity search across process embeddings
+- **RAG Database Endpoint**: Performs semantic search with automatic embedding generation and vector similarity
+- **Document Ingestion**: Indexes process documents into F13's vector database (Elasticsearch)
+- **Metadata Filtering**: Supports filtering by source, date range, and custom metadata fields
 - **Infrastructure**: Leverages government AI platform for secure, compliant processing
+- **No Direct Embedding API**: Embeddings are generated internally within RAG workflows
 
-**BPMN Modeler Integration**:
-- **Automated Generation**: Creates workflow diagrams when processes are updated
-- **Version Control**: Maintains BPMN history and process evolution
-- **Validation**: Ensures generated workflows comply with government standards
+**BPMN Management** (Separate from F13):
+- **Pre-generated Diagrams**: BPMN XML stored in OpenFlow database or file system
+- **Manual Creation**: Process diagrams created using BPMN modeling tools
+- **Future Enhancement**: Potential LLM-based generation using F13's chat capabilities
+- **Visualization**: Frontend renders BPMN using bpmn-js library
 
 **Intranet Organigram Service** (External Government System):
 - **Centralized Master Data**: Single source of truth for organizational structure
