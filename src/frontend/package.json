@@ -1,5 +1,5 @@
 {
-  "name": "openflow-atlas-dashboard",
+  "name": "openflow",
   "version": "1.0.0",
   "description": "AI-powered government process discovery with BPMN visualization",
   "main": "src/index.tsx",

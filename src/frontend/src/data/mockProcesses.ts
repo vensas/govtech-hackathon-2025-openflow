@@ -35,6 +35,11 @@ export const mockProcesses: BusinessProcess[] = [
         similarity: 0.94,
       },
       {
+        text: 'Tenders are mandatory for all procurement activities above the threshold, ensuring transparency and competitive selection.',
+        source: 'BPMN Process',
+        similarity: 0.89,
+      },
+      {
         text: 'The procurement officer must ensure all legal requirements are met before initiating the tender process.',
         source: 'Legal Compliance Manual',
         similarity: 0.87,

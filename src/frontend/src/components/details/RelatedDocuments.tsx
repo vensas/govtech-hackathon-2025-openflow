@@ -3,11 +3,11 @@ import { Card } from 'primereact/card';
 import { ProcessForm } from '../../types';
 import { colors } from '../../theme';
 
-interface RequiredFormsProps {
+interface RelatedDocumentsProps {
   forms: ProcessForm[];
 }
 
-export const RequiredForms: React.FC<RequiredFormsProps> = ({ forms }) => {
+export const RelatedDocuments: React.FC<RelatedDocumentsProps> = ({ forms }) => {
   if (!forms || forms.length === 0) {
     return null;
   }
@@ -16,7 +16,7 @@ export const RequiredForms: React.FC<RequiredFormsProps> = ({ forms }) => {
     <Card style={{ marginBottom: '1.5rem' }}>
       <div style={{ padding: '1rem' }}>
         <h3 style={{ marginBottom: '1rem' }}>
-          Required Forms
+          Related Documents
         </h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {forms.map((form, index) => (

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -9,7 +9,7 @@ interface ChatInputProps {
   loading?: boolean;
 }
 
-export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false }) => {
+const ChatInputComponent: React.FC<ChatInputProps> = ({ onSubmit, loading = false }) => {
   const [query, setQuery] = useState('');
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -29,12 +29,13 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false 
     setAttachedFile(null);
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       // Check if it's a PDF
       if (file.type === 'application/pdf') {
         setAttachedFile(file);
+        // Don't clear the query text when attaching a file
       } else {
         alert('Please upload a PDF file');
       }
@@ -43,19 +44,17 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false 
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-  };
+  }, []);
 
-  const handleRemoveFile = () => {
+  const handleRemoveFile = useCallback(() => {
     setAttachedFile(null);
-  };
+  }, []);
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Submit on Enter (without Shift)
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e as any);
-    }
-  };
+  const handleAttachClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    fileInputRef.current?.click();
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -113,7 +112,6 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false 
         <InputTextarea
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
           placeholder="Ask about government processes or attach a document... (Press Enter to send, Shift+Enter for new line)"
           disabled={loading}
           autoFocus
@@ -142,10 +140,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false 
             <Button
               icon="pi pi-paperclip"
               label="Attach Document (.pdf, .docx)"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={handleAttachClick}
               disabled={loading || !!attachedFile}
               text
               size="small"
+              type="button"
             />
           </div>
 
@@ -171,3 +170,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false 
     </form>
   );
 };
+
+ChatInputComponent.displayName = 'ChatInput';
+
+export const ChatInput = React.memo(ChatInputComponent);

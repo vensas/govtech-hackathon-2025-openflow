@@ -6,7 +6,7 @@ import { BpmnDiagram } from './BpmnDiagram';
 import { EvidenceSnippets } from './EvidenceSnippets';
 import { ContactInfo } from './ContactInfo';
 import { LegalBases } from './LegalBases';
-import { RequiredForms } from './RequiredForms';
+import { RelatedDocuments } from './RelatedDocuments';
 
 interface ProcessDetailsPanelProps {
   process: BusinessProcess | null;
@@ -45,7 +45,7 @@ export const ProcessDetailsPanel: React.FC<ProcessDetailsPanelProps> = ({ proces
       
       {process.legalBases && <LegalBases legalBases={process.legalBases} />}
       
-      {process.forms && <RequiredForms forms={process.forms} />}
+      {process.forms && <RelatedDocuments forms={process.forms} />}
     </div>
   );
 };
