@@ -17,13 +17,7 @@ export const mockProcesses: BusinessProcess[] = [
       email: 'maria.schmidt@gov.example',
       phone: '+49 30 12345-678',
     },
-    sla: '15 business days',
     systems: ['ERP-PRO', 'DocuSign', 'Compliance-Check'],
-    kpis: [
-      { name: 'Processing Time', value: '12', unit: 'days', target: '15 days' },
-      { name: 'Success Rate', value: '94', unit: '%', target: '95%' },
-      { name: 'Cost Savings', value: '8.5', unit: '%', target: '10%' },
-    ],
     forms: [
       { name: 'Procurement Request Form', url: '#', required: true },
       { name: 'Budget Approval Form', url: '#', required: true },
@@ -62,13 +56,7 @@ export const mockProcesses: BusinessProcess[] = [
       email: 'thomas.mueller@gov.example',
       phone: '+49 30 12345-679',
     },
-    sla: '5 business days',
     systems: ['HR-System', 'Active Directory', 'Training Portal'],
-    kpis: [
-      { name: 'Onboarding Time', value: '4', unit: 'days', target: '5 days' },
-      { name: 'Completion Rate', value: '98', unit: '%', target: '100%' },
-      { name: 'Employee Satisfaction', value: '4.5', unit: '/5', target: '4.0/5' },
-    ],
     forms: [
       { name: 'Personal Data Form', url: '#', required: true },
       { name: 'Security Clearance Form', url: '#', required: true },
@@ -114,11 +102,6 @@ export const mockProcesses: BusinessProcess[] = [
     },
     sla: '10 business days',
     systems: ['SAP FI', 'Invoice Scanner', 'Payment Gateway'],
-    kpis: [
-      { name: 'Average Approval Time', value: '7', unit: 'days', target: '10 days' },
-      { name: 'Error Rate', value: '2', unit: '%', target: '5%' },
-      { name: 'On-time Payments', value: '96', unit: '%', target: '95%' },
-    ],
     forms: [
       { name: 'Invoice Submission Form', url: '#', required: true },
       { name: 'Budget Authorization Form', url: '#', required: true },
@@ -158,11 +141,6 @@ export const mockProcesses: BusinessProcess[] = [
     },
     sla: '30 business days',
     systems: ['Permit Management System', 'GIS Portal', 'Document Archive'],
-    kpis: [
-      { name: 'Average Processing Time', value: '28', unit: 'days', target: '30 days' },
-      { name: 'Approval Rate', value: '78', unit: '%', target: '75%' },
-      { name: 'Appeal Rate', value: '5', unit: '%', target: '10%' },
-    ],
     forms: [
       { name: 'Building Permit Application', url: '#', required: true },
       { name: 'Architectural Plans', url: '#', required: true },
@@ -204,10 +182,6 @@ export const mockProcesses: BusinessProcess[] = [
     },
     sla: '3 business days',
     systems: ['HR-System', 'Active Directory', 'Access Management'],
-    kpis: [
-      { name: 'Onboarding Time', value: '2', unit: 'days', target: '3 days' },
-      { name: 'Completion Rate', value: '100', unit: '%', target: '100%' },
-    ],
     forms: [
       { name: 'Internship Agreement', url: '#', required: true },
       { name: 'Personal Data Form', url: '#', required: true },
@@ -243,11 +217,6 @@ export const mockProcesses: BusinessProcess[] = [
     },
     sla: '7 business days',
     systems: ['Travel Management System', 'Expense Tracker', 'SAP FI'],
-    kpis: [
-      { name: 'Approval Time', value: '2', unit: 'days', target: '3 days' },
-      { name: 'Reimbursement Time', value: '5', unit: 'days', target: '7 days' },
-      { name: 'Compliance Rate', value: '97', unit: '%', target: '95%' },
-    ],
     forms: [
       { name: 'Travel Request Form', url: '#', required: true },
       { name: 'Expense Report', url: '#', required: true },
@@ -283,10 +252,6 @@ export const mockProcesses: BusinessProcess[] = [
     },
     sla: '5 business days',
     systems: ['Archive Management System', 'Document Portal'],
-    kpis: [
-      { name: 'Retrieval Time', value: '4', unit: 'days', target: '5 days' },
-      { name: 'Accuracy Rate', value: '99', unit: '%', target: '98%' },
-    ],
     forms: [
       { name: 'Archive Request Form', url: '#', required: true },
       { name: 'Authorization Form', url: '#', required: true },
@@ -321,10 +286,6 @@ export const mockProcesses: BusinessProcess[] = [
     },
     sla: '12 business days',
     systems: ['Asset Management', 'Procurement System', 'Inventory DB'],
-    kpis: [
-      { name: 'Processing Time', value: '10', unit: 'days', target: '12 days' },
-      { name: 'Budget Compliance', value: '95', unit: '%', target: '90%' },
-    ],
     forms: [
       { name: 'IT Equipment Request', url: '#', required: true },
       { name: 'Technical Specification Sheet', url: '#', required: true },

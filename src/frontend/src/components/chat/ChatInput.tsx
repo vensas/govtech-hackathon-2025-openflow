@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { colors } from '../theme';
+import { colors } from '../../theme';
 
 interface ChatInputProps {
   onSubmit: (query: string, file?: File) => void;
@@ -114,7 +114,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Ask about business processes or attach a PDF document... (Press Enter to send, Shift+Enter for new line)"
+          placeholder="Ask about government processes or attach a document... (Press Enter to send, Shift+Enter for new line)"
           disabled={loading}
           autoFocus
           rows={3}
@@ -141,7 +141,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSubmit, loading = false 
           <div>
             <Button
               icon="pi pi-paperclip"
-              label="Attach PDF"
+              label="Attach Document (.pdf, .docx)"
               onClick={() => fileInputRef.current?.click()}
               disabled={loading || !!attachedFile}
               text

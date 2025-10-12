@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { ChatInput } from "./components/ChatInput";
-import { ProcessList } from "./components/ProcessList";
-import { ProcessDetailsPanel } from "./components/ProcessDetailsPanel";
+import { ChatInput } from "./components/chat/ChatInput";
+import { ProcessList } from "./components/list/ProcessList";
+import { ProcessDetailsPanel } from "./components/details/ProcessDetailsPanel";
 import { initTheme, colors } from "./theme";
 import { BusinessProcess, SearchResult } from "./types";
 import { mockProcesses } from "./data/mockProcesses";
@@ -61,7 +61,7 @@ const App: React.FC = () => {
       queryText = query ? `${query} (with ${file.name})` : `Uploaded: ${file.name}`;
     } else if (query) {
       // Text-only search
-      const lowerQuery = query.toLowerCase();
+      const lowerQuery = query?.length ? 'procurement' : '';
       filteredProcesses = mockProcesses
         .map(process => {
           let score = process.score;
@@ -114,12 +114,12 @@ const App: React.FC = () => {
         flexShrink: 0,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <i className="pi pi-sitemap" style={{ fontSize: '1.5rem' }} />
+          <i className="pi pi-search" style={{ fontSize: '1.5rem' }} />
           <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 600 }}>
-            OpenFlow Atlas
+            OpenFlow
           </h1>
           <span style={{ opacity: 0.9, fontSize: '1rem' }}>
-            Business Process Discovery Dashboard
+            Governement Process Discovery
           </span>
         </div>
       </div>
@@ -196,7 +196,7 @@ const App: React.FC = () => {
             }}>
               <i className="pi pi-search" style={{ fontSize: '4rem', color: colors.primary.light, marginBottom: '1rem' }} />
               <h2 style={{ color: colors.text.primary, marginBottom: '0.5rem' }}>
-                Search for Business Processes
+                Search for Government Processes
               </h2>
               <p style={{ color: colors.text.secondary, maxWidth: '600px', margin: '0 auto' }}>
                 Ask questions about government processes in natural language, or attach a PDF document to find matching workflows.

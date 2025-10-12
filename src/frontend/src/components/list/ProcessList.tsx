@@ -2,10 +2,9 @@ import React from 'react';
 import { Card } from 'primereact/card';
 import { Message } from 'primereact/message';
 import { Divider } from 'primereact/divider';
-import { BusinessProcess } from '../types';
-import { colors } from '../theme';
+import { BusinessProcess } from '../../types';
+import { colors } from '../../theme';
 import { ProcessListItem } from './ProcessListItem';
-import { Chip } from 'primereact/chip';
 
 interface ProcessListProps {
   processes: BusinessProcess[];

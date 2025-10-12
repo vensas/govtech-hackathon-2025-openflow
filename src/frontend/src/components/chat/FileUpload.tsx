@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { colors } from '../theme';
+import { colors } from '../../theme';
 
 interface FileUploadProps {
   onFileUpload: (file: File) => void;
@@ -38,11 +38,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       const files = e.dataTransfer.files;
       if (files && files[0]) {
         const file = files[0];
-        if (file.type === 'application/pdf') {
+        if (file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           setSelectedFile(file);
           onFileUpload(file);
         } else {
-          alert('Please upload a PDF file');
+          alert('Please upload a PDF or DOCX file');
         }
       }
     },
@@ -56,11 +56,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       const files = e.target.files;
       if (files && files[0]) {
         const file = files[0];
-        if (file.type === 'application/pdf') {
+        // add docx file support
+        if (file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           setSelectedFile(file);
           onFileUpload(file);
         } else {
-          alert('Please upload a PDF file');
+          alert('Please upload a PDF or DOCX file');
         }
       }
     },
@@ -76,7 +77,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       <input
         type="file"
         id="pdf-file-upload"
-        accept=".pdf,application/pdf"
+        accept=".pdf,application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         onChange={handleFileChange}
         style={{ display: 'none' }}
         disabled={disabled || loading}
@@ -150,7 +151,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             outlined
           />
           <p style={{ fontSize: '0.75rem', color: colors.text.secondary, marginTop: '0.5rem' }}>
-            Supported format: PDF (max 10MB)
+            Supported format: PDF, DOCX (max 10MB)
           </p>
         </div>
       )}

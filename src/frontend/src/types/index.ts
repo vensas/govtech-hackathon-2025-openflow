@@ -9,7 +9,6 @@ export interface BusinessProcess {
   owner: ProcessOwner;
   sla?: string;
   systems?: string[];
-  kpis?: KPI[];
   forms?: ProcessForm[];
   legalBases?: LegalBasis[];
   bpmnXml?: string;
@@ -21,13 +20,6 @@ export interface ProcessOwner {
   contactPerson: string;
   email: string;
   phone?: string;
-}
-
-export interface KPI {
-  name: string;
-  value: string;
-  unit?: string;
-  target?: string;
 }
 
 export interface ProcessForm {

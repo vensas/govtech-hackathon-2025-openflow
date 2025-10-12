@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card } from 'primereact/card';
 import { Chip } from 'primereact/chip';
-import { MatchSnippet } from '../types';
-import { colors } from '../theme';
+import { MatchSnippet } from '../../types';
+import { colors } from '../../theme';
 
 interface EvidenceSnippetsProps {
   snippets: MatchSnippet[];

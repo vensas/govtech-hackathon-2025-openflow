@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message } from 'primereact/message';
-import { BusinessProcess } from '../types';
+import { BusinessProcess } from '../../types';
 import { ProcessHeader } from './ProcessHeader';
 import { BpmnDiagram } from './BpmnDiagram';
 import { EvidenceSnippets } from './EvidenceSnippets';
@@ -23,7 +23,7 @@ export const ProcessDetailsPanel: React.FC<ProcessDetailsPanelProps> = ({ proces
             <div>
               <h3>Select a Process</h3>
               <p>
-                Choose a business process from the search results to view its details, 
+                Choose a government process from the search results to view its details, 
                 BPMN workflow diagram, and contact information.
               </p>
             </div>

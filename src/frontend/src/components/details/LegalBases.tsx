@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'primereact/card';
-import { LegalBasis } from '../types';
-import { colors } from '../theme';
+import { LegalBasis } from '../../types';
+import { colors } from '../../theme';
 
 interface LegalBasesProps {
   legalBases: LegalBasis[];

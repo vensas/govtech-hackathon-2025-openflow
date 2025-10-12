@@ -3,8 +3,8 @@ import { Card } from 'primereact/card';
 import { Chip } from 'primereact/chip';
 import { ProgressBar } from 'primereact/progressbar';
 import { Divider } from 'primereact/divider';
-import { BusinessProcess } from '../types';
-import { colors } from '../theme';
+import { BusinessProcess } from '../../types';
+import { colors } from '../../theme';
 
 interface ProcessCardProps {
   process: BusinessProcess;

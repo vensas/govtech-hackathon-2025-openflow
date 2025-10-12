@@ -1,7 +1,7 @@
 {
   "name": "openflow-atlas-dashboard",
   "version": "1.0.0",
-  "description": "RAG-powered dashboard for business process discovery with BPMN visualization",
+  "description": "AI-powered government process discovery with BPMN visualization",
   "main": "src/index.tsx",
   "scripts": {
     "dev": "rspack serve --mode development",

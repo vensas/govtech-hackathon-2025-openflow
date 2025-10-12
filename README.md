@@ -1,6 +1,6 @@
-# OpenFlow Atlas Dashboard
+# OpenFlow
 
-A beautiful RAG-powered dashboard for business process discovery with BPMN visualization capabilities.
+A beautiful RAG-powered dashboard for government process discovery with BPMN visualization capabilities.
 
 ## Overview
 
@@ -17,12 +17,12 @@ flowchart LR
     A --> B --> C --> D --> E
 ```
 
-This solution, named "OpenFlow Atlas Dashboard", is a frontend application that connects to the F13 RAG service to allow users to search for and explore business processes using natural language queries to identify processes relevant to their department, resort and daily work.
+This solution, named "OpenFlow", is an application that connects to the F13 service to allow users to search for and explore government processes using natural language queries to identify processes relevant to their department, resort and daily work.
 
 ## Features
 
-- 🔍 **Natural Language Search**: Ask questions about business processes in plain language
-- 📊 **Process Discovery**: Find matching business processes ranked by relevance scores
+- 🔍 **Natural Language Search**: Ask questions about government processes in plain language
+- 📊 **Process Discovery**: Find matching government processes ranked by relevance scores
 - 🌊 **BPMN Visualization**: Interactive workflow diagrams for each process
 - 📞 **Contact Integration**: Direct access to process owners and responsible departments
 - 📋 **Contextual Metadata**: Forms, legal bases, KPIs, and systems information
@@ -91,9 +91,6 @@ npm run build
 ```
 src/
 ├── components/          # React components
-│   ├── SearchBar.tsx   # Search interface
-│   ├── ProcessList.tsx # Results listing
-│   └── ProcessDetailsPanel.tsx # Details view
 ├── types/              # TypeScript definitions
 ├── theme/              # MUI theme configuration
 ├── App.tsx            # Main application

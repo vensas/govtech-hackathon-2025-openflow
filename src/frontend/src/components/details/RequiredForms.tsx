@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'primereact/card';
-import { ProcessForm } from '../types';
-import { colors } from '../theme';
+import { ProcessForm } from '../../types';
+import { colors } from '../../theme';
 
 interface RequiredFormsProps {
   forms: ProcessForm[];

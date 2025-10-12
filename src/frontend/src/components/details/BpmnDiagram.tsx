@@ -3,7 +3,7 @@ import { Card } from 'primereact/card';
 import BpmnViewer from 'bpmn-js/lib/Viewer';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
-import { colors } from '../theme';
+import { colors } from '../../theme';
 
 interface BpmnDiagramProps {
   bpmnXml: string;

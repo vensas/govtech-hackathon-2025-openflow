@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'primereact/card';
-import { ProcessOwner } from '../types';
-import { colors } from '../theme';
+import { ProcessOwner } from '../../types';
+import { colors } from '../../theme';
 
 interface ContactInfoProps {
   owner: ProcessOwner;

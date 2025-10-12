@@ -1,7 +1,7 @@
 import React from 'react';
 import { Chip } from 'primereact/chip';
-import { BusinessProcess } from '../types';
-import { colors } from '../theme';
+import { BusinessProcess } from '../../types';
+import { colors } from '../../theme';
 
 interface ProcessHeaderProps {
   process: BusinessProcess;
