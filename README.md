@@ -1,8 +1,8 @@
 # OpenFlow
 
-A beautiful AI-powered search for government process discovery with BPMN visualization capabilities.
+A beautiful AI-powered search for government process discovery.
 
-> This Proof-of-Concept was built during the [GovTech Hackathon 2025](https://hackathon.govtech.saarland/) in Saarbrücken, Germany.
+> This Proof-of-Concept was built during the [GovTech Hackathon 2025](https://hackathon.govtech.saarland/) in Saarbrücken, Germany by the OpenFlow team [Melanie](https://www.linkedin.com/in/melanie-s-361150263/) & [Sven](https://www.linkedin.com/in/svenhennessen/).
 
 <img src="src/frontend/public/logo-saarland.png" alt="Saarland Logo" width="200" style="background: white; border-radius: 8px;"/>
 
