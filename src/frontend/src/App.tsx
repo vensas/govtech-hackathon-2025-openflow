@@ -93,14 +93,27 @@ const App: React.FC = () => {
           flexShrink: 0,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <i className="pi pi-search" style={{ fontSize: "1.5rem" }} />
-          <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 600 }}>
-            OpenFlow
-          </h1>
-          <span style={{ opacity: 0.9, fontSize: "1rem" }}>
-            Governement Process Discovery
-          </span>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <i className="pi pi-search" style={{ fontSize: "1.5rem" }} />
+            <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 600 }}>
+              OpenFlow
+            </h1>
+            <span style={{ opacity: 0.9, fontSize: "1rem" }}>
+              Government Process Discovery
+            </span>
+          </div>
+          <img
+            src="logo-saarland.png"
+            alt="Saarland Logo"
+            height="40"
+            style={{
+              background: "white",
+              borderRadius: "8px",
+              marginLeft: "auto",
+              display: "block"
+            }}
+          />
         </div>
       </div>
 

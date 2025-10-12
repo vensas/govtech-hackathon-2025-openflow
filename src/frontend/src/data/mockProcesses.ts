@@ -12,7 +12,7 @@ export const mockProcesses: BusinessProcess[] = [
     category: 'Procurement',
     governmentResort: 'Wirtschaft',
     owner: {
-      department: 'Procurement Office',
+      department: 'Saarland > Ministerium für Wirtschaft, Innovation, Digitales und Energie > Abteilung III - Digitalisierung > Referat III.2 - E-Government > Beschaffung',
       contactPerson: 'Maria Schmidt',
       email: 'maria.schmidt@gov.example',
       phone: '+49 30 12345-678',
@@ -56,7 +56,7 @@ export const mockProcesses: BusinessProcess[] = [
     category: 'Human Resources',
     governmentResort: 'Inneres',
     owner: {
-      department: 'Human Resources',
+      department: 'Saarland > Ministerium für Inneres, Bauen und Sport > Abteilung I - Innere Verwaltung > Referat I.3 - Personal > Team Onboarding',
       contactPerson: 'Thomas Mueller',
       email: 'thomas.mueller@gov.example',
       phone: '+49 30 12345-679',
@@ -100,7 +100,7 @@ export const mockProcesses: BusinessProcess[] = [
     category: 'Finance',
     governmentResort: 'Finanzen',
     owner: {
-      department: 'Finance Department',
+      department: 'Saarland > Ministerium der Finanzen und für Wissenschaft > Abteilung II - Haushalt > Referat II.1 - Haushaltsvollzug > Sachgebiet Rechnungsprüfung',
       contactPerson: 'Anna Weber',
       email: 'anna.weber@gov.example',
       phone: '+49 30 12345-680',

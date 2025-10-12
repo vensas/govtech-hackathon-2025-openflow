@@ -2,26 +2,44 @@
 
 A beautiful AI-powered search for government process discovery with BPMN visualization capabilities.
 
+> This Proof-of-Concept was built during the [GovTech Hackathon 2025](https://hackathon.govtech.saarland/) in Saarbrücken, Germany.
+
+<img src="src/frontend/public/logo-saarland.png" alt="Saarland Logo" width="200" style="background: white; border-radius: 8px;"/>
+
+
 ## Overview
 
 The Saarland government's [F13 AI platform](https://f13-os.de/) provides a Retrieval-Augmented Generation (RAG) service with embedding generation and vector similarity search capabilities. **OpenFlow** leverages F13's AI capabilities while maintaining ownership of process data and search orchestration.
 
+**Motivation**: 
+- Stop silos re-implementing redundant processes in government departments
+- Make it easy for administrative staff to find the right process
+- Enable standardization and collaboration across departments
+
 ### F13 & OpenFlow Integration
+
+Today: F13 is planned to provide the aggregated database for publicly available goverment data for use in applications and automation scenarios.
+
+**This solution is based on the assumption that F13 will provide**:
+- Embedding information for government processes and documents
+- The aggregated (vector) database provides similarity search APIs
+- BPMN generation capabilities are centrally available
 
 ```mermaid
 flowchart LR
     A[Process Data / Documents / BPMN]
     B[OpenFlow Process Store]
-    C[F13 Embedding API]
-    D[(F13 Vector DB)]
+    C[F13 RAG & Aggregated Database]
     E[BPMN Modeler]
 
     A --> B
     B --> C
-    C --> D
-    E --> B
     B --> E
 ```
+
+### Demo
+
+Query: "How do I procure software licenses over 25,000 EUR for our department? Do I need a tender process?
 
 ### Scope of this Solution
 
@@ -32,9 +50,7 @@ Core functionalities include:
 - **Process Management**: Store and manage complete government process repository
 - **Natural Language Search**: Users input queries and documents to find relevant processes  
 - **AI-Powered Matching**: Generate embeddings via F13 and perform similarity search
-- **BPMN Generation**: Automatically generate workflow diagrams when processes are updated
 - **Rich Metadata**: Provide process owners, contact info, forms, legal bases, and analytics
-- **User Personalization**: Track usage, preferences, and department-specific customizations
 
 ### Architecture
 
@@ -76,7 +92,6 @@ flowchart
    end
    subgraph OpenFlow Database
         F[(Process Metadata)]
-        H[(BPMN XML Storage)]
    end
    subgraph F13 Platform
       J[Embedding Generation API]
@@ -92,7 +107,6 @@ flowchart
       C --> K
       C --> F
       B --> L
-      L --> H
 ```
 
 #### Search Flow Sequence
@@ -222,7 +236,7 @@ npm run build
 3. **Explore Details**: Click on any process to see:
    - BPMN workflow diagram
    - Contact information
-   - Required forms and documents
+   - Related documents
    - Legal basis and regulations
    - Key performance indicators
    - Supporting evidence snippets
