@@ -216,7 +216,7 @@ sequenceDiagram
 - React 18 with TypeScript
 - PrimeReact UI components
 - RSPACK for fast bundling
-- Prime React Icons
+- PrimeIcons
 - bpmn-js for workflow visualization
 
 **Backend** (To be implemented):
@@ -243,7 +243,7 @@ sequenceDiagram
 1. Clone the repository:
 ```bash
 git clone <repository-url> openflow
-cd openflow
+cd openflow/src/frontend
 ```
 
 2. Install dependencies:
@@ -284,12 +284,22 @@ npm run build
 ## Project Structure
 
 ```
-src/
-├── components/          # React components
-├── types/              # TypeScript definitions
-├── theme/              # MUI theme configuration
-├── App.tsx            # Main application
-└── index.tsx          # Entry point
+src/frontend/
+├── src/
+│   ├── components/          # React components
+│   │   ├── chat/           # Search input and file upload
+│   │   ├── details/        # Process details components
+│   │   └── list/           # Process list components
+│   ├── types/              # TypeScript definitions
+│   ├── theme/              # PrimeReact theme configuration
+│   ├── data/               # Mock data for development
+│   ├── utils/              # Utility functions
+│   ├── App.tsx             # Main application
+│   └── index.tsx           # Entry point
+├── public/                  # Static assets
+├── package.json
+├── tsconfig.json
+└── rspack.config.js
 ```
 
 ## Integration Architecture
@@ -338,7 +348,6 @@ src/
   - `GET /api/v1/contacts/{processId}` - Get enriched contact info for process
 
 **Government Systems**:
-- **Authentication**: Integration with government SSO (Active Directory)
 - **Authentication**: Integration with government SSO (Active Directory)
 - **Document Management**: Links to official forms and legal documents  
 - **Audit & Compliance**: Full traceability for government oversight requirements
