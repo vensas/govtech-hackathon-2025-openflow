@@ -341,14 +341,6 @@ src/frontend/
 
 **Intranet Organigram Service** (External Government System):
 - **Centralized Master Data**: Single source of truth for organizational structure
-- **API Endpoints**:
-  - `GET /api/v1/departments/{id}` - Get department details
-  - `GET /api/v1/departments/{id}/hierarchy` - Get full organizational path
-  - `GET /api/v1/employees/{id}` - Get employee and contact information
-  - `GET /api/v1/search/departments?query={term}` - Search departments
-- **Data Model**: Department ID, name, parent department, contact persons, email, phone
-- **Update Frequency**: Real-time synchronization with HR systems
-- **Access Control**: OAuth 2.0 with government SSO integration
 
 **OpenFlow User Service** (Internal Component):
 - **Purpose**: Abstracts and caches Intranet Organigram data
@@ -357,19 +349,6 @@ src/frontend/
   - Resolve department IDs to full hierarchical paths
   - Enrich process owners with current contact information
   - Provide user department context for personalized search
-- **Caching Strategy**: 
-  - Department structure cached for 24 hours
-  - Contact information cached for 1 hour
-  - Invalidation on explicit update signals
-- **API Endpoints**:
-  - `GET /api/v1/users/{userId}/context` - Get user's org context
-  - `GET /api/v1/organizations/hierarchy/{departmentId}` - Get cached hierarchy
-  - `GET /api/v1/contacts/{processId}` - Get enriched contact info for process
-
-**Government Systems**:
-- **Authentication**: Integration with government SSO (Active Directory)
-- **Document Management**: Links to official forms and legal documents  
-- **Audit & Compliance**: Full traceability for government oversight requirements
 
 ## License
 
