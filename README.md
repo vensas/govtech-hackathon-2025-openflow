@@ -6,12 +6,14 @@ A beautiful AI-powered search for government process discovery.
 
 <img src="src/frontend/public/logo-saarland.png" alt="Saarland Logo" width="200" style="background: white; border-radius: 8px;"/>
 
-
 ## Overview
 
 The Saarland government's [F13 AI platform](https://f13-os.de/) provides a Retrieval-Augmented Generation (RAG) service with embedding generation and vector similarity search capabilities. **OpenFlow** leverages F13's AI capabilities while maintaining ownership of process data and search orchestration.
 
-**Motivation**: 
+### Idea & Motivation
+
+Use F13 to:
+
 - Stop silos re-implementing redundant processes in government departments
 - Make it easy for administrative staff to find the right process
 - Enable standardization and collaboration across departments
