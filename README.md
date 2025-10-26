@@ -225,8 +225,8 @@ sequenceDiagram
 - [ ] Search history and analytics dashboard
 
 ### Lessons Learned during GovTech Hackathon 2025
-- Setup of F13 cumbersome based on open source documentation (ARM processor architecture, model cannot be loaded, etc.)
-  - [x] Bug report created
+- Setup of F13 cumbersome based on open source documentation (ARM processor architecture)
+  - [x] Bug report created https://gitlab.opencode.de/f13/dokumentation/-/issues/43
 
 ## Tech Stack
 
