@@ -28,7 +28,7 @@ duration: 10min
 
 # OpenFlow
 
-A beautiful AI-powered search for government process discovery
+AI-powered search for government process discovery
 
 <div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
   <carbon:arrow-right />
@@ -45,17 +45,13 @@ A beautiful AI-powered search for government process discovery
   </a>
 </div>
 
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
-
 ---
 
 # GOVTECH HACKATHON
 
 **11. & 12. October 2025**
 
-East Side Fab<br/>
+**East Side Fab**<br/>
 Saarbrücken
 
 <svg width="200" viewBox="0 0 26.05 14.31" xmlns="http://www.w3.org/2000/svg" class="inline-block">
@@ -90,32 +86,42 @@ Saarbrücken
   </g>
 </svg>
 
-👥 Team of 2: [Melanie Schug](https://www.linkedin.com/in/melanie-s-361150263/) & [Sven Hennessen](https://www.linkedin.com/in/svenhennessen/)
+<p><carbon:collaborate />Team of 2: <a href="https://www.linkedin.com/in/melanie-s-361150263/">Melanie Schug</a> & <a href="https://www.linkedin.com/in/svenhennessen/">Sven Hennessen</a></p>
 
 <!--
-
+- GOVTECH Hackathon Saarland 2025
+- Team of 2 with Melanie
+- F13 Topic Area
 -->
 
 ---
 
 # F13 AI Platform
 
-**Hackathon Context**
+**Hackathon: Our Briefing**
 
-- F13 planned as Saarland's AI platform for government
+- F13 as Saarland's AI platform for government
 - F13 offers semantic search capabilities via RAG service
 - Government documents are to be embedded in F13's database
 - BPMN processes can be generated based on available information
 
 ```mermaid
-flowchart LR
-    A[Public Documents]
-    B[F13 Aggregated Database]
-    C[BPMN Modeler]
+flowchart
+    subgraph Planned
+      A[Public Documents]
+      B[(F13 Aggregated Database)]
+      C[BPMN Modeler]
+    end
 
     A --> B
     B --> C
 ```
+
+<!--
+- F13 provides RAG service and aggregated database
+- Government documents are embedded in F13
+- BPMN Modeler is planned to generate process diagrams
+-->
 
 ---
 
@@ -123,16 +129,17 @@ flowchart LR
 
 **AI-powered government process discovery**
 
-⚠️ **Assumption**: F13 is used as central platform for government documents and processes. Information available is embedded in F13 and searchable via RAG.
 
-🚀 **Motivation**: Harmonize redundant processes and break up communication silos across government departments.
+<p><carbon:warning-alt class="mr-2" /><strong>Assumption</strong>: F13 is used as central platform for government documents and processes. Information available is embedded in F13 and searchable via RAG.</p>
+
+<p><carbon:share-knowledge class="mr-2" /><strong>Motivation</strong>: Harmonize redundant processes and break up communication silos across government departments.</p>
 
 ```mermaid
 flowchart LR
     A[Process Data<br/>Documents<br/>BPMN]
     B[OpenFlow]
     C[F13 RAG & Aggregated Database]
-    D[BPMN Modeler]
+    D[External Services]
 
     A --> B
     B --> C
@@ -140,7 +147,9 @@ flowchart LR
 ```
 
 <!--
-
+- Idea: OpenFlow as central application for process discovery on top of F13
+- Assumption: All government documents are embedded in F13 RAG
+- Goal: Streamline access to process information and improve collaboration
 -->
 
 ---
@@ -152,18 +161,19 @@ class: text-center
 
 <div class="mt-8">
   <a href="http://localhost:3000" target="_blank" class="text-4xl font-bold text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200">
-    🔍 OpenFlow
+    <carbon:search /> OpenFlow
   </a>
 </div>
 
 <div class="mt-12 text-lg">
   <p><strong>Demo Persona: Sarah, New Employee</strong></p>
-  <p class="mt-4 text-base italic">"How do I procure software licenses over 25,000 EUR?<br/>Do I need a tender process?"</p>
+  <p class="mt-4 text-base italic">"How do I procure software licenses over 25,000 EUR? Do I need a tender process?"</p>
 </div>
 
 <!--
-Sarah joins a new department and needs to procure a software license for 26,999 EUR
-OpenFlow provides matching processes, BPMN visualization, contacts, and evidence
+- Sarah
+- New employee in a government department
+- Needs to procure software licenses > 25,000 EUR
 -->
 
 ---
@@ -172,62 +182,39 @@ OpenFlow provides matching processes, BPMN visualization, contacts, and evidence
 
 **What was shown in the demo?**
 
-- 🔍 Natural language search for government processes
-- 🤖 AI-powered matching via F13 embedding and RAG
-- 📄 Rich process metadata (owner, contact, forms, legal basis)
-- 📊 Interactive BPMN workflow visualization
-- ❗️ Evidence snippets for transparency
-
----
-
-# OpenFlow Integration 1/2
-
-
-```mermaid
-flowchart LR
-      A[User]
-      subgraph OpenFlow
-        B[Frontend]
-        C[API]
-        D[(Process Database)]
-      end
-      subgraph F13 RAG Service
-         F[Embedding]
-         G[Semantic Search]
-         H[(Vector DB)]
-      end
-      A --> B
-      B --> C
-      C --> D
-      C --> F
-      C --> G
-      F --> H
-      G --> H
-```
-
----
-
-# OpenFlow Integration 2/2
-
-
-```mermaid
-sequenceDiagram
-    participant User as User
-    participant OpenFlow as OpenFlow API
-    participant F13_RAG as F13 RAG Service
-    participant OpenFlow_DB as OpenFlow Database
-
-    User->>OpenFlow: Search query + optional document
-    OpenFlow->>F13_RAG: POST /rag/database (query + filters)
-    Note over F13_RAG: Generates query embedding<br/>Performs vector similarity search<br/>Retrieves relevant documents
-    F13_RAG-->>OpenFlow: RAGOutput (answer + sources with metadata)
-    OpenFlow->>OpenFlow_DB: Extract process IDs, fetch full metadata
-    OpenFlow_DB-->>OpenFlow: Process details (BPMN, contacts, forms, etc.)
-    OpenFlow-->>User: Return enriched search results
-```
+<ul class="list-none mt-4 space-y-1">
+  <li>
+    <carbon:search class="mr-2" />
+    <span>Natural language search for government processes</span>
+  </li>
+  <li>
+    <carbon:ai-recommend class="mr-2" />
+    <span>AI-powered matching via F13 embedding and RAG</span>
+  </li>
+  <li>
+    <carbon:document class="mr-2" />
+    <span>Rich process metadata (owner, contact, forms, legal basis)</span>
+  </li>
+  <li>
+    <carbon:flow-connection class="mr-2" />
+    <span>BPMN workflow visualization</span>
+  </li>
+  <li>
+    <carbon:warning-alt class="mr-2" />
+    <span>Evidence snippets for transparency</span>
+  </li>
+  <li>
+    <carbon:partnership class="mr-2" />
+    <span>Integration with external services</span>
+  </li>
+</ul>
 
 <!--
-Clear separation: F13 provides AI infrastructure, OpenFlow owns business logic and data
+OpenFlow provides matching processes with BPMN visualization, contacts, and evidence
+
+- Evidence for validation and transparency
+- Contact information for collaboration
+- Integration of external services (BPMN Modeler, Organigram) 
 -->
 
 ---
@@ -243,9 +230,73 @@ Clear separation: F13 provides AI infrastructure, OpenFlow owns business logic a
 
 Sven Hennessen<br/>
 **vensas GmbH**<br/>
-📧 sven.hennessen@vensas.de
 
+<div>
+  <span><carbon:email class="mr-2"/><a href="mailto:sven.hennessen@vensas.de">sven.hennessen@vensas.de</a></span><br/>
+  <span><carbon:phone class="mr-2"/><a href="tel:+4968130984780">+49 (0)681 30984780</a></span><br/>
+  <span><carbon:location class="mr-2"/><span>Halbergstraße 4 - 66121 Saarbrücken</span></span><br/>
+</div> 
+
+---
+
+# Appendix: OpenFlow Integration 1/2
+
+**High-Level Architecture**
+
+```mermaid {scale: 0.8}
+flowchart TD
+      subgraph X1 [OpenFlow]
+        B[Frontend]
+        C[API]
+        D[(Process Database)]
+      end
+      subgraph X2 [F13 RAG Service]
+         F[Embedding]
+         G[Semantic Search]
+         H[(Vector DB)]
+      end
+      subgraph X3 [External Services]
+          E[BPMN Modeler]
+          I[Organigram Service]
+      end
+      B --> C
+      C --> D
+      F --> H
+      G --> H
+      X1 --> X2
+      X1 --> X3
+```
 
 <!--
-Thanks for watching! Ready for questions and discussion
+Optional!
+
+High-level OpenFlow integration architecture
+-->
+
+---
+
+# Appendix: OpenFlow Integration 2/2
+
+**Search Integration Flow**
+
+```mermaid
+sequenceDiagram
+    participant User as User Frontend
+    participant OpenFlow as OpenFlow API
+    participant F13_RAG as F13 RAG Service
+    participant OpenFlow_DB as OpenFlow Database
+
+    User->>OpenFlow: Search query + optional document
+    OpenFlow->>F13_RAG: POST /rag/database (query + filters)
+    Note over F13_RAG: Generates query embedding<br/>Performs vector similarity search<br/>Retrieves relevant documents
+    F13_RAG-->>OpenFlow: RAGOutput (answer + sources with metadata)
+    OpenFlow->>OpenFlow_DB: Extract process IDs, fetch full metadata
+    OpenFlow_DB-->>OpenFlow: Process details (BPMN, contacts, forms, etc.)
+    OpenFlow-->>User: Return enriched search results
+```
+
+<!--
+Optional!
+
+Detailed sequence diagram of OpenFlow search integration with F13 RAG
 -->
