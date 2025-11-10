@@ -228,6 +228,13 @@ OpenFlow provides matching processes with BPMN visualization, contacts, and evid
   OpenFlow Demo @ GitHub
 </a>
 
+Melanie Schug<br/>
+**Ministerium für Wirtschaft, Innovation, Digitales und Energie des Saarlandes**<br/>
+
+<div>
+  <span><carbon:email class="mr-2"/><a href="mailto:m.schug@wirtschaft.saarland.de">m.schug@wirtschaft.saarland.de</a></span><br/>
+</div> 
+
 Sven Hennessen<br/>
 **vensas GmbH**<br/>
 
